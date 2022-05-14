@@ -11,6 +11,7 @@
         :active-text-color="variables.menuActiveText"
         :collapse-transition="false"
         mode="vertical"
+        class="sab-menu-item"
       >
         <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
@@ -52,3 +53,9 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.sab-menu-item {
+  &:hover {color: #ffffff;}
+
+}
+</style>
