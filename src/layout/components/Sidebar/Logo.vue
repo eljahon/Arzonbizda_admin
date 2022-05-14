@@ -1,19 +1,17 @@
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
-      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 v-else class="sidebar-title">{{ title }} </h1>
-      </router-link>
-      <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 class="sidebar-title">{{ title }} </h1>
+      <router-link key="expand" class="sidebar-logo-link" to="/">
+        <img :src="logo" class="sidebar-logo">
+        <h1 class="sidebar-title"><span class="sidebar-title-text"><img :src="titleImg" alt=""></span></h1>
       </router-link>
     </transition>
   </div>
 </template>
 
 <script>
+import img from '../../../assets/baseIcon.png'
+import title from '../../../assets/arzonbizda.svg'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -24,8 +22,9 @@ export default {
   },
   data() {
     return {
-      title: 'Vue Element Admin',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      title: 'arzoni bizda',
+      logo: img,
+      titleImg: title
     }
   }
 }
@@ -46,7 +45,7 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #2b2f3a;
+  background: #fff;
   text-align: center;
   overflow: hidden;
 
@@ -64,12 +63,18 @@ export default {
     & .sidebar-title {
       display: inline-block;
       margin: 0;
-      color: #fff;
+      color: black;
       font-weight: 600;
       line-height: 50px;
       font-size: 14px;
       font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
       vertical-align: middle;
+      & .sidebar-title-text {
+        img {
+                     margin-top: 15px;
+                     height: 20px !important;
+        }
+      }
     }
   }
 
