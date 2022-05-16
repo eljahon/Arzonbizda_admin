@@ -1,7 +1,7 @@
 <template>
   <div :class="{'has-logo':showLogo}">
     <logo v-if="showLogo" :collapse="isCollapse" />
-    <el-scrollbar wrap-class="scrollbar-wrapper">
+    <el-scrollbar wrap-class="scrollbar-wrapper" class="scroll-class">
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
@@ -54,8 +54,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.sab-menu-item {
-  &:hover {color: #ffffff;}
-
-}
 </style>

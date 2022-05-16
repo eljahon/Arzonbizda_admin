@@ -2,7 +2,7 @@
   <div class="navbar">
     <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
-    <!-- <breadcrumb id="breadcrumb-container" class="breadcrumb-container" /> -->
+    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
@@ -12,16 +12,17 @@
 
         <!-- <screenfull id="screenfull" class="right-menu-item hover-effect" /> -->
 
-        <el-tooltip content="Global Size" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
-        </el-tooltip>
+        <!--        <el-tooltip content="Global Size" effect="dark" placement="bottom">-->
+        <!--          <size-select id="size-select" class="right-menu-item hover-effect" />-->
+        <!--        </el-tooltip>-->
 
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+        <div class="avatar-wrapper" @click="showdwonFunction">
+          <img :src="avatar" class="user-avatar" alt="this is images">
+          <span class="user-name">{{ userData.last_name }}{{ ' '+userData.first_name }}</span>
+          <i :class="cravings" />
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/profile/index">
@@ -49,33 +50,47 @@
 import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
 import ErrorLog from '@/components/ErrorLog'
-import SizeSelect from '@/components/SizeSelect'
-import avatar from '../../assets/user.jpg'
+import Breadcrumb from '@/components/Breadcrumb'
+import { getUserName } from '@/utils/auth'
+import avatar from '../../assets/users.jpg'
 
 export default {
   components: {
     Hamburger,
     ErrorLog,
-    SizeSelect
+    Breadcrumb
   },
   data() {
     return {
-      avatar
+      avatar,
+      showdwon: false
     }
   },
   computed: {
     ...mapGetters([
       'sidebar',
       'device'
-    ])
+    ]),
+    userData() {
+      return JSON.parse(getUserName())
+    },
+    cravings: function() {
+      return this.showdwon ? 'el-icon-arrow-up' : 'el-icon-arrow-down'
+    }
+  },
+  mounted() {
+    console.log(this.userName)
   },
   methods: {
+    showdwonFunction() {
+      this.showdwon = !this.showdwon
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
       await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$router.push(`/login`)
     }
   }
 }
@@ -124,18 +139,19 @@ export default {
       display: inline-block;
       padding: 0 8px;
       height: 100%;
-      font-size: 18px;
-      color: #5a5e66;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 40px;
       vertical-align: text-bottom;
-
-      &.hover-effect {
-        cursor: pointer;
-        transition: background .3s;
-
-        &:hover {
-          background: rgba(0, 0, 0, .025)
-        }
-      }
+      color: #242625;
+      //&.hover-effect {
+      //  cursor: pointer;
+      //  transition: background .3s;
+      //
+      //  &:hover {
+      //    background: rgba(0, 0, 0, .025)
+      //  }
+      //}
     }
 
     .avatar-container {
@@ -144,20 +160,28 @@ export default {
       .avatar-wrapper {
         margin-top: 5px;
         position: relative;
+        display: flex;
+        align-items: center;
 
         .user-avatar {
           cursor: pointer;
           width: 40px;
           height: 40px;
           border-radius: 50%;
+          margin-right: 8px;
         }
-
-        .el-icon-caret-bottom {
+.user-name {
+  cursor: pointer;
+}
+        .el-icon-arrow-down {
           cursor: pointer;
           position: absolute;
           right: -20px;
-          top: 25px;
-          font-size: 12px;
+        }
+        .el-icon-arrow-up {
+          cursor: pointer;
+          position: absolute;
+          right: -20px;
         }
       }
     }

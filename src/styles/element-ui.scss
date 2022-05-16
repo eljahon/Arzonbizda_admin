@@ -1,5 +1,7 @@
 // cover some element-ui styles
-
+.el-menu-item {
+  font-size: 16px;
+}
 .el-breadcrumb__inner,
 .el-breadcrumb__inner a {
   font-weight: 400 !important;
@@ -17,7 +19,7 @@
 
 .cell {
   .el-tag {
-    margin-right: 0px;
+    margin-right: 0;
   }
 }
 
@@ -41,7 +43,7 @@
     text-align: center;
 
     .el-tag {
-      margin-right: 0px;
+      margin-right: 0;
     }
   }
 }

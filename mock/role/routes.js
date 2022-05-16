@@ -41,7 +41,7 @@ const constantRoutes = [
         path: 'dashboard',
         component: 'views/dashboard/index',
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: 'Dashboard', icon: 'magazin', affix: true }
       }
     ]
   },
@@ -229,7 +229,7 @@ const asyncRoutes = [
     name: 'Charts',
     meta: {
       title: 'Charts',
-      icon: 'chart'
+      icon: 'magazin'
     },
     children: [
       {
