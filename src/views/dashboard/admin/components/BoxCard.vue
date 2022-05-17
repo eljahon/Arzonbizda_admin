@@ -160,5 +160,12 @@ export default {
       display: none;
     }
   }
+  @media (max-width: 1320px) {
+    .box-card-component {
+      margin-left: 50px;
+      margin-top: 116px;
+      width: 280px;
+    }
+  }
 }
 </style>
