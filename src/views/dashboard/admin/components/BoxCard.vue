@@ -1,9 +1,9 @@
 <template>
-  <el-card class="box-card-component" style="margin-left:18px;">
+  <el-card class="box-card-component">
     <h3>Популярные локации</h3>
     <el-tabs v-model="activeTab">
-      <el-tab-pane label="Провинции" name="Провинции">
-        <div style="padding-top:35px;" class="progress-item">
+      <el-tab-pane class="panel_Provinces" label="Провинции" name="Провинции">
+        <div style="padding-top: 35px" class="progress-item">
           <span>Узбекистан</span>
           <el-progress :stroke-width="10" :percentage="70" />
         </div>
@@ -12,10 +12,9 @@
           <el-progress :stroke-width="10" :percentage="18" />
         </div>
       </el-tab-pane>
-      <el-tab-pane label="Страны" name="Страны">
-        <div style="position:relative;">
-
-          <div style="padding-top:35px;" class="progress-item">
+      <el-tab-pane class="panel_Provinces" label="Страны" name="Страны">
+        <div style="position: relative">
+          <div style="padding-top: 35px" class="progress-item">
             <span>Узбекистан</span>
             <el-progress :stroke-width="10" :percentage="70" />
           </div>
@@ -45,7 +44,6 @@
 import { mapGetters } from 'vuex'
 
 export default {
-
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -65,19 +63,47 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'name',
-      'avatar',
-      'roles'
-    ])
+    ...mapGetters(['name', 'avatar', 'roles'])
   }
 }
 </script>
 
 <style lang="scss">
+.el-tabs__active-bar {
+  background-color: #ff3838 !important;
+}
+.el-tabs__item.is-active {
+  color: #ff3838 !important;
+}
+
+.panel_Provinces {
+  font-family: "Yandex Sans Display";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  span {
+    font-family: "Yandex Sans Display";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
 .box-card-component {
+  margin-left: 50px;
+  margin-top: 116px;
+  width: 320px;
   .el-card__header {
     padding: 0 !important;
+  }
+  h3 {
+    font-family: "Yandex Sans Display";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
   }
 }
 </style>

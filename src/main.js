@@ -19,6 +19,7 @@ import './permission' // permission control
 import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
+import './styles/base.scss'
 
 /**
  * If you don't want to use mock-server
@@ -39,7 +40,7 @@ Vue.use(Element, {
 })
 
 // register global utility filters
-Object.keys(filters).forEach(key => {
+Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key])
 })
 
@@ -49,5 +50,5 @@ new Vue({
   el: '#app',
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App)
 })

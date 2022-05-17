@@ -1,27 +1,8 @@
-<template>
-  <div class="dashboard-editor-container">
-
-    <el-row style="padding:16px 16px 0;">
-      <el-col :xs="24" :sm="24" :lg="5">
-        <panel-group @handleSetLineChartData="handleSetLineChartData" />
-      </el-col>
-      <!--      <el-col :xs="24" :sm="24" :lg="14">-->
-      <!--        <el-row class="chart-wrapper">-->
-      <!--          <line-chart :chart-data="lineChartData" />-->
-      <!--        </el-row>-->
-      <!--      </el-col>-->
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 8}" :xl="{span: 6}">
-        <box-card />
-      </el-col>
-    </el-row>
-
-  </div>
-</template>
-
 <script>
 // import GithubCorner from '@/components/GithubCorner'
 import PanelGroup from './components/PanelGroup'
 import BoxCard from './components/BoxCard'
+import LineChart from './components/LineChart.vue'
 
 const lineChartData = {
   newVisitis: {
@@ -47,7 +28,8 @@ export default {
   components: {
     // GithubCorner,
     PanelGroup,
-    BoxCard
+    BoxCard,
+    LineChart
   },
   data() {
     return {
@@ -61,10 +43,38 @@ export default {
   }
 }
 </script>
+<template>
+  <div class="dashboard-editor-container">
+    <el-row class="all-components-flex">
+      <el-col :xs="24" :sm="24" :lg="5">
+        <panel-group @handleSetLineChartData="handleSetLineChartData" />
+      </el-col>
+      <el-col>
+        <el-row class="chart-wrapper">
+          <div>
+            <line-chart :chart-data="lineChartData" />
+          </div>
+        </el-row>
+      </el-col>
+      <el-col
+        :xs="{ span: 24 }"
+        :sm="{ span: 12 }"
+        :md="{ span: 12 }"
+        :lg="{ span: 8 }"
+        :xl="{ span: 6 }"
+      >
+        <box-card />
+      </el-col>
+    </el-row>
+  </div>
+</template>
 
 <style lang="scss" scoped>
+.all-components-flex {
+  display: flex;
+  padding: 0px 40px;
+}
 .dashboard-editor-container {
-  padding: 32px;
   background-color: rgb(240, 242, 245);
   position: relative;
 
@@ -80,13 +90,12 @@ export default {
     margin-top: 20px;
     margin-left: 8px;
     width: 100%;
-    height: 100%;
-    //padding: 16px 16px 0;
-    //margin-bottom: 32px;
+    height: 433px;
+    margin-top: 116px;
   }
 }
 
-@media (max-width:1024px) {
+@media (max-width: 1024px) {
   .chart-wrapper {
     padding: 8px;
   }

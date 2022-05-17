@@ -3,20 +3,28 @@
     <el-col :xs="12" :sm="12" :lg="24" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <div class="card-panel-description">
-          <div class="card-panel-text">
-            New Visits
-          </div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+          <div class="card-panel-text">Продукты</div>
+          <count-to
+            :start-val="0"
+            :end-val="102400"
+            :duration="2600"
+            class="card-panel-num"
+          />
+          <p class="panelGroup__description">По сравнению с прошлым месяцем</p>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="24" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('messages')">
         <div class="card-panel-description">
-          <div class="card-panel-text">
-            Messages
-          </div>
-          <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+          <div class="card-panel-text">Количество посещений</div>
+          <count-to
+            :start-val="0"
+            :end-val="81212"
+            :duration="3000"
+            class="card-panel-num"
+          />
+          <p class="panelGroup__description">По сравнению с прошлым месяцем</p>
         </div>
       </div>
     </el-col>
@@ -39,23 +47,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.panelGroup__description {
+  font-family: "Yandex Sans Display";
+  color: #afb3b3;
+  font-style: normal;
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
 .panel-group {
-  margin-top: 18px;
-
+  margin-top: 116px;
   .card-panel-col {
-    margin-bottom: 32px;
+    margin: 0px 40px 32px 0px;
   }
 
   .card-panel {
-    height: 180px;
+    height: 200px;
+    width: 200px;
+    padding: 20px;
     cursor: pointer;
     font-size: 12px;
     position: relative;
     overflow: hidden;
     color: #666;
     background: #fff;
-    box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
-    border-color: rgba(0, 0, 0, .05);
+    box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.05);
 
     &:hover {
       .card-panel-icon-wrapper {
@@ -75,7 +93,7 @@ export default {
       }
 
       .icon-shopping {
-        background: #34bfa3
+        background: #34bfa3;
       }
     }
 
@@ -92,7 +110,7 @@ export default {
     }
 
     .icon-shopping {
-      color: #34bfa3
+      color: #34bfa3;
     }
 
     .card-panel-icon-wrapper {
@@ -112,24 +130,31 @@ export default {
       display: block;
       justify-content: center;
       font-weight: bold;
-      margin: 26px;
       margin-left: 0;
 
       .card-panel-text {
-        line-height: 18px;
+        font-family: "Yandex Sans Display";
+        margin-top: 7px;
+        text-align: center;
+        line-height: 20px;
         color: rgba(0, 0, 0, 0.45);
         font-size: 16px;
-        margin-bottom: 12px;
       }
 
       .card-panel-num {
-        font-size: 20px;
+        font-family: "Yandex Sans Display";
+        font-size: 40px;
+        line-height: 48px;
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        color: #0f6cb0;
       }
     }
   }
 }
 
-@media (max-width:550px) {
+@media (max-width: 550px) {
   .card-panel-description {
     display: none;
   }

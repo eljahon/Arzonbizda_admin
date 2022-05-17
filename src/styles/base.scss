@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Yandex Sans Display";
+}
+@font-face {
+  font-family: "Yandex Sans Display";
+  font-weight: 700;
+  font-style: normal;
+  src: local("Yandex Sans Display"),
+    url("../../src/assets/font/YandexSansDisplay-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Yandex Sans Display";
+  font-weight: 300;
+  font-style: normal;
+  src: local("Yandex Sans Display"),
+    url("../../src/assets/font/YandexSansDisplay-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Yandex Sans Display";
+  font-weight: 400;
+  font-style: normal;
+  src: local("Yandex Sans Display"),
+    url("../../src/assets/font/YandexSansDisplay-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Yandex Sans Display";
+  font-weight: 500;
+  font-style: normal;
+  src: local("Yandex Sans Display"),
+    url("../../src/assets/font/YandexSansText-Medium.woff") format("woff");
+}
