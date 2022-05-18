@@ -73,8 +73,8 @@ export default {
     }
     return {
       loginForm: {
-        email: 'admin@arzonbizda.uz',
-        password: 'password'
+        email: '',
+        password: ''
       },
       loginRules: {
         email: [{ required: true, trigger: 'blur', validator: validateUsername }],
