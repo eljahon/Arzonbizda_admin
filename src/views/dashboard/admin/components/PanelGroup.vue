@@ -17,7 +17,7 @@
     <el-col :xs="12" :sm="12" :lg="24" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('messages')">
         <div class="card-panel-description">
-          <div class="card-panel-text">Количество посещений</div>
+          <div class="card-panel-text">Количество  посещений</div>
           <count-to
             :start-val="0"
             :end-val="81212"
@@ -151,6 +151,29 @@ export default {
         color: #0f6cb0;
       }
     }
+  }
+}
+@media (max-width: 1207px) {
+  .panel-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+  }
+}
+@media (min-width: 1199.5px) and (max-width: 1207px) {
+  .panel-group {
+    margin-left: 700px;
+  }
+}
+@media (max-width: 706px) {
+  .panel-group {
+    flex-direction: column;
+  }
+}
+@media (max-width: 425px) {
+  .panel-group {
+    margin-right: 50px;
   }
 }
 

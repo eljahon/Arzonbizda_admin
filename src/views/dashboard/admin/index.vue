@@ -46,10 +46,10 @@ export default {
 <template>
   <div class="dashboard-editor-container">
     <el-row class="all-components-flex">
-      <el-col :xs="24" :sm="24" :lg="5">
+      <el-col class="panel__box" :xs="24" :sm="24" :lg="5">
         <panel-group @handleSetLineChartData="handleSetLineChartData" />
       </el-col>
-      <el-col>
+      <el-col class="chart__Box">
         <el-row class="chart-wrapper">
           <div>
             <line-chart :chart-data="lineChartData" />
@@ -57,6 +57,7 @@ export default {
         </el-row>
       </el-col>
       <el-col
+        class="box-card__Box"
         :xs="{ span: 24 }"
         :sm="{ span: 12 }"
         :md="{ span: 12 }"
@@ -95,6 +96,36 @@ export default {
   }
 }
 
+@media (max-width: 1286px) {
+  .chart-wrapper {
+    margin-left: 25px !important;
+  }
+}
+@media (max-width: 1207px) {
+  .all-components-flex {
+    flex-direction: column;
+    padding: 0px 40px;
+  }
+  .panel__box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .chart-wrapper {
+    margin-left: 8px;
+    margin-top: 40px !important;
+  }
+  .chart__Box {
+    margin-left: -25px;
+  }
+  .box-card__Box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+}
 @media (max-width: 1024px) {
   .chart-wrapper {
     padding: 8px;
