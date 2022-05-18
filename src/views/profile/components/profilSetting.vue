@@ -1,21 +1,20 @@
 <template>
   <el-form>
     <el-row>
-      <el-col><Upload /></el-col>
       <el-col :lg="12">
         <el-row>
           <el-col :lg="24">
-            <el-form-item label="Имя">
-              <el-input v-model.trim="user.email" />
+            <el-form-item label="Старый пароль">
+              <el-input v-model.trim="user.name" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="Фамилия">
-              <el-input v-model.trim="user.email" />
+            <el-form-item label="Hовый пароль">
+              <el-input v-model.trim="user.password" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="Адрес электронной почты">
+            <el-form-item label="Подтвердите новый пароль">
               <el-input v-model.trim="user.email" />
             </el-form-item>
           </el-col>
@@ -40,18 +39,15 @@
 </template>
 
 <script>
-import Upload from '../../components-demo/avatar-upload'
 export default {
-  components: {
-    Upload
-  },
   props: {
     user: {
       type: Object,
       default: () => {
         return {
           name: '',
-          email: ''
+          email: '',
+          password: ''
         }
       }
     }

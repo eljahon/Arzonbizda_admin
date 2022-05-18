@@ -3,21 +3,20 @@
     <div v-if="user">
       <el-row :gutter="20">
 
-        <el-col :span="6" :xs="24">
-          <user-card :user="user" />
-        </el-col>
+        <!--                <el-col :span="6" :xs="24">-->
+        <!--                  <user-card :user="user" />-->
+        <!--                </el-col>-->
 
-        <el-col :span="18" :xs="24">
+        <el-col :span="24" :xs="24">
           <el-card>
             <el-tabs v-model="activeTab">
-              <el-tab-pane label="Activity" name="activity">
-                <activity />
+              <el-tab-pane label="Информация об аккаунте" name="Информация об аккаунте">
+                <account class="prifil-setting" :user="user" />
+
               </el-tab-pane>
-              <el-tab-pane label="Timeline" name="timeline">
-                <timeline />
-              </el-tab-pane>
-              <el-tab-pane label="Account" name="account">
-                <account :user="user" />
+              <el-tab-pane label="Информация о безопасности" name="Информация о безопасности">
+                <ProfileSetting class="prifil-setting" />
+
               </el-tab-pane>
             </el-tabs>
           </el-card>
@@ -30,18 +29,16 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import UserCard from './components/UserCard'
-import Activity from './components/Activity'
-import Timeline from './components/Timeline'
+import ProfileSetting from './components/profilSetting'
 import Account from './components/Account'
 
 export default {
   name: 'Profile',
-  components: { UserCard, Activity, Timeline, Account },
+  components: { ProfileSetting, Account },
   data() {
     return {
       user: {},
-      activeTab: 'activity'
+      activeTab: 'Информация об аккаунте'
     }
   },
   computed: {
@@ -66,3 +63,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.prifil-setting {
+  margin-top: 60px;
+  margin-left: 60px;
+}
+</style>
