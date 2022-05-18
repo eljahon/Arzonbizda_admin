@@ -160,12 +160,24 @@ export default {
       display: none;
     }
   }
-  @media (max-width: 1320px) {
-    .box-card-component {
-      margin-left: 50px;
-      margin-top: 116px;
-      width: 280px;
-    }
+}
+@media (max-width: 1320px) {
+  .box-card-component {
+    margin-left: 32px;
+    width: 280px;
+  }
+}
+@media (max-width: 1222px) {
+  .box-card-component {
+    margin-left: 40px;
+    width: 250px;
+  }
+}
+@media (max-width: 1207px) {
+  .box-card-component {
+    margin-left: 0px;
+    width: 100%;
+    margin-top: 40px;
   }
 }
 </style>

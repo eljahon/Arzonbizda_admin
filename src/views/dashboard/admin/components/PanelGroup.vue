@@ -153,6 +153,29 @@ export default {
     }
   }
 }
+@media (max-width: 1207px) {
+  .panel-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+  }
+}
+@media (min-width: 1199.5px) and (max-width: 1207px) {
+  .panel-group {
+    margin-left: 700px;
+  }
+}
+@media (max-width: 706px) {
+  .panel-group {
+    flex-direction: column;
+  }
+}
+@media (max-width: 425px) {
+  .panel-group {
+    margin-right: 50px;
+  }
+}
 
 @media (max-width: 550px) {
   .card-panel-description {
