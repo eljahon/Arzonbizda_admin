@@ -1,7 +1,7 @@
 <template>
   <el-form>
     <el-row>
-      <el-col :lg="12">
+      <el-col :lg="10">
         <el-row>
           <el-col :lg="24">
             <el-form-item label="Старый пароль">
@@ -22,11 +22,11 @@
             <el-row>
               <el-form-item>
                 <div class="buttuns-warapper">
-                  <el-col :span="16">
+                  <el-col :sm="24" :span="16">
                     <el-button icon="el-icon-document" type="primary" @click="submit">Сохранить изменения</el-button>
                   </el-col>
-                  <el-col :lg="8">
-                    <el-button icon="el-icon-circle-close" type="danger">Отмена</el-button>
+                  <el-col :sm="24" :lg="8">
+                    <el-button style="float: right" icon="el-icon-circle-close" type="danger">Отмена</el-button>
                   </el-col>
                 </div>
               </el-form-item>

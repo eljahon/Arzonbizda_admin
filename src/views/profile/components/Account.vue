@@ -2,7 +2,7 @@
   <el-form>
     <el-row>
       <el-col><Upload /></el-col>
-      <el-col :lg="12">
+      <el-col :lg="10">
         <el-row>
           <el-col :lg="24">
             <el-form-item label="Имя">
@@ -27,7 +27,7 @@
                     <el-button icon="el-icon-document" type="primary" @click="submit">Сохранить изменения</el-button>
                   </el-col>
                   <el-col :lg="8">
-                    <el-button icon="el-icon-circle-close" type="danger">Отмена</el-button>
+                    <el-button style="float: right" icon="el-icon-circle-close" type="danger">Отмена</el-button>
                   </el-col>
                 </div>
               </el-form-item>
