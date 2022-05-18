@@ -36,13 +36,11 @@ export default {
 
 <style scoped>
 .pan-item {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
+  border-radius: 4px;
   display: inline-block;
   position: relative;
   cursor: default;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);*/
 }
 
 .pan-info-roles-container {
@@ -51,11 +49,11 @@ export default {
 }
 
 .pan-thumb {
-  width: 100%;
-  height: 100%;
+  width: 93%;
+  height: 93%;
   background-position: center center;
   background-size: cover;
-  border-radius: 50%;
+  border-radius: 4px;
   overflow: hidden;
   position: absolute;
   transform-origin: 95% 40%;
@@ -81,7 +79,7 @@ export default {
   height: inherit;
   border-radius: 50%;
   overflow: hidden;
-  box-shadow: inset 0 0 0 5px rgba(0, 0, 0, 0.05);
+  /*box-shadow: inset 0 0 0 5px rgba(0, 0, 0, 0.05);*/
 }
 
 .pan-info h3 {
@@ -108,12 +106,10 @@ export default {
 
 .pan-info p a {
   display: block;
-  color: #333;
   width: 80px;
   height: 80px;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  color: #fff;
   font-style: normal;
   font-weight: 700;
   text-transform: uppercase;
@@ -127,12 +123,16 @@ export default {
   transform: translateX(60px) rotate(90deg);
 }
 
+.pan-info p a {
+  color: #fff;
+}
+
 .pan-info p a:hover {
   background: rgba(255, 255, 255, 0.5);
 }
 
 .pan-item:hover .pan-thumb {
-  transform: rotate(-110deg);
+  /*transform: rotate(-110deg);*/
 }
 
 .pan-item:hover .pan-info p a {

@@ -95,14 +95,28 @@ export const constantRoutes = [
       }
     ]
   },
+  // {
+  //   path: '/profile',
+  //   component: Layout,
+  //   redirect: '/profile/index',
+  //   hidden: true,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/profile/index'),
+  //       name: 'Profile',
+  //       meta: { title: 'Profile', icon: 'user', noCache: true }
+  //     }
+  //   ]
+  // },
   {
-    path: '/guide',
+    path: '/profile',
     component: Layout,
-    redirect: '/guide/index',
+    redirect: '/profile/index',
     children: [
       {
         path: 'index',
-        component: () => import('@/views/guide/index'),
+        component: () => import('@/views/profile/index'),
         name: 'Guide',
         meta: { title: 'Настройки', icon: 'settings', noCache: true }
       }
@@ -141,24 +155,24 @@ export const asyncRoutes = [
       roles: ['admin', 'editor'] // you can set roles in root nav
     },
     children: [
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: 'Page Permission',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: 'Directive Permission'
-          // if do not set roles, means: this page does not require permission
-        }
-      },
+      // {
+      //   path: 'page',
+      //   component: () => import('@/views/permission/page'),
+      //   name: 'PagePermission',
+      //   meta: {
+      //     title: 'Page Permission',
+      //     roles: ['admin'] // or you can only set roles in sub nav
+      //   }
+      // },
+      // {
+      //   path: 'directive',
+      //   component: () => import('@/views/permission/directive'),
+      //   name: 'DirectivePermission',
+      //   meta: {
+      //     title: 'Directive Permission'
+      //     // if do not set roles, means: this page does not require permission
+      //   }
+      // },
       {
         path: 'role',
         component: () => import('@/views/permission/role'),

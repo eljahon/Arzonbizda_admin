@@ -77,7 +77,7 @@ export default {
 .dashboard-editor-container {
   background-color: rgb(240, 242, 245);
   position: relative;
-
+  min-height: 100vh;
   .github-corner {
     position: absolute;
     top: 0;
