@@ -17,7 +17,7 @@
     <el-col :xs="12" :sm="12" :lg="24" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('messages')">
         <div class="card-panel-description">
-          <div class="card-panel-text">Количество посещений</div>
+          <div class="card-panel-text">Количество  посещений</div>
           <count-to
             :start-val="0"
             :end-val="81212"
