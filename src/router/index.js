@@ -49,19 +49,19 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/documentation',
+    path: '/shops',
     component: Layout,
     children: [
       {
         path: 'index',
         component: () => import('@/views/documentation/index'),
-        name: 'Documentation',
+        name: 'shops',
         meta: { title: 'Интернет-магазины', icon: 'magazin', affix: true }
       }
     ]
   },
   {
-    path: '/profile',
+    path: '/settins',
     component: Layout,
     redirect: '/profile/index',
     children: [
