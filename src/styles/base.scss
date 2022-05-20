@@ -2,8 +2,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Yandex Sans Display";
 }
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap");
+// font-family: 'Noto Sans', sans-serif;
+
 @font-face {
   font-family: "Yandex Sans Display";
   font-weight: 700;
@@ -33,4 +35,18 @@
   font-style: normal;
   src: local("Yandex Sans Display"),
     url("../../src/assets/font/YandexSansText-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "SF Pro";
+  font-weight: 500;
+  font-style: normal;
+  src: local("SF Pro"),
+    url("../../src/assets/font/SFProDisplayMedium.woff") format("woff");
+}
+@font-face {
+  font-family: "SF Pro";
+  font-weight: 400;
+  font-style: normal;
+  src: local("SF Pro"),
+    url("../../src/assets/font/SFProDisplay-Regular.woff") format("woff");
 }
