@@ -1,8 +1,16 @@
 <template>
   <div class="navbar">
-    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger
+      id="hamburger-container"
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
 
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+    <breadcrumb
+      id="breadcrumb-container"
+      class="breadcrumb-container"
+    />
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
@@ -15,29 +23,41 @@
         <!--        <el-tooltip content="Global Size" effect="dark" placement="bottom">-->
         <!--          <size-select id="size-select" class="right-menu-item hover-effect" />-->
         <!--        </el-tooltip>-->
-
       </template>
 
-      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
-        <div class="avatar-wrapper" @click="showdwonFunction">
-          <img :src="avatar" class="user-avatar" alt="this is images">
+      <el-dropdown
+        class="avatar-container right-menu-item hover-effect"
+        trigger="click"
+      >
+        <div
+          class="avatar-wrapper"
+          @click="showdwonFunction"
+        >
+          <img
+            :src="avatar"
+            class="user-avatar"
+            alt="this is images"
+          >
           <span class="user-name">{{ userData.last_name }}{{ ' '+userData.first_name }}</span>
           <i :class="cravings" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/profile/index">
-            <el-dropdown-item>Profile</el-dropdown-item>
-          </router-link>
-          <router-link to="/">
-            <el-dropdown-item>Dashboard</el-dropdown-item>
-          </router-link>
+          <!--          <router-link to="/profile/index">-->
+          <!--            <el-dropdown-item>Profile</el-dropdown-item>-->
+          <!--          </router-link>-->
+          <!--          <router-link to="/">-->
+          <!--            <el-dropdown-item>Dashboard</el-dropdown-item>-->
+          <!--          </router-link>-->
           <!-- <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
             <el-dropdown-item>Github</el-dropdown-item>
           </a> -->
           <!-- <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
             <el-dropdown-item>Docs</el-dropdown-item>
           </a> -->
-          <el-dropdown-item divided @click.native="logout">
+          <el-dropdown-item
+            divided
+            @click.native="logout"
+          >
             <span style="display:block;">Log Out</span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -79,7 +99,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.userName)
   },
   methods: {
     showdwonFunction() {
@@ -89,6 +108,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
+      window.location.reload();
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login`)
     }

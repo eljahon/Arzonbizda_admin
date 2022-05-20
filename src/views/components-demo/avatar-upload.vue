@@ -45,7 +45,6 @@ export default {
         class="profile__setting__btn btn__size__newImg__green btn__full"
         type="primary"
         icon="el-icon-refresh"
-        @click="imagecropperShow = true"
       >
         Сбросить изображение
       </el-button>
@@ -54,8 +53,8 @@ export default {
     <image-cropper
       v-show="imagecropperShow"
       :key="imagecropperKey"
-      :width="300"
-      :height="300"
+      :width="600"
+      :height="600"
       url="https://arzonbizda.herokuapp.com/admin/admin-avatar"
       lang-type="en"
       :headers="header"

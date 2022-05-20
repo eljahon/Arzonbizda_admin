@@ -3,26 +3,31 @@
   <div class="app-container">
     <div>
       <el-row :gutter="20">
-
         <!--                <el-col :span="6" :xs="24">-->
         <!--                  <user-card :user="user" />-->
         <!--                </el-col>-->
 
-        <el-col :span="24" :xs="24">
+        <el-col
+          :span="24"
+          :xs="24"
+        >
           <el-card>
             <el-tabs v-model="activeTab">
-              <el-tab-pane label="Информация об аккаунте" name="Информация об аккаунте">
+              <el-tab-pane
+                label="Информация об аккаунте"
+                name="Информация об аккаунте"
+              >
                 <account class="prifil-setting" />
-
               </el-tab-pane>
-              <el-tab-pane label="Информация о безопасности" name="Информация о безопасности">
+              <el-tab-pane
+                label="Информация о безопасности"
+                name="Информация о безопасности"
+              >
                 <ProfileSetting class="prifil-setting" />
-
               </el-tab-pane>
             </el-tabs>
           </el-card>
         </el-col>
-
       </el-row>
     </div>
   </div>
@@ -36,24 +41,18 @@ export default {
   components: { ProfileSetting, Account },
   data() {
     return {
-      activeTab: 'Информация об аккаунте'
+      activeTab: 'Информация об аккаунте',
+      userId: ''
     }
   },
   computed: {
     ...mapGetters(['name', 'avatar', 'roles'])
   },
   created() {
-    this.getUser()
+    // this.getUser()
   },
   methods: {
-    getUser() {
-      this.user = {
-        name: this.name,
-        role: this.roles.join(' | '),
-        email: 'admin@test.com',
-        avatar: this.avatar
-      }
-    }
+
   }
 }
 </script>

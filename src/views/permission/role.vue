@@ -1,10 +1,13 @@
 <template>
   <div class="app-container">
     <el-button
+      style="float: right; margin-bottom: 20px"
       type="primary"
+      round
+      icon="el-icon-plus"
       @click="handleAddRole"
     >
-      New Role
+      Добавлен новый админ
     </el-button>
 
     <el-table
@@ -12,109 +15,106 @@
       style="width: 100%;margin-top:30px;"
     >
       <el-table-column
-        align="center"
-        label="Role Key"
-        width="220"
-      >
-        <template slot-scope="scope">
-          {{ scope.row.key }}
-        </template>
-      </el-table-column>
+        label="имя"
+      />
       <el-table-column
-        align="center"
-        label="Role Name"
-        width="220"
-      >
-        <template slot-scope="scope">
-          {{ scope.row.name }}
-        </template>
-      </el-table-column>
+        label="Фамилия"
+      />
       <el-table-column
-        align="header-center"
-        label="Description"
-      >
-        <template slot-scope="scope">
-          {{ scope.row.description }}
-        </template>
-      </el-table-column>
+        label="Эл. адрес"
+      />
       <el-table-column
-        align="center"
-        label="Operations"
-      >
-        <template slot-scope="scope">
-          <el-button
-            type="primary"
-            size="small"
-            @click="handleEdit(scope)"
-          >
-            Edit
-          </el-button>
-          <el-button
-            type="danger"
-            size="small"
-            @click="handleDelete(scope)"
-          >
-            Delete
-          </el-button>
-        </template>
-      </el-table-column>
+        label="Пароль"
+      />
     </el-table>
 
-    <!--    <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'Edit Role':'New Role'">-->
-    <!--      <el-form :model="role" label-width="80px" label-position="left">-->
-    <!--        <el-form-item label="Name">-->
-    <!--          <el-input v-model="role.name" placeholder="Role Name" />-->
-    <!--        </el-form-item>-->
-    <!--        <el-form-item label="Desc">-->
-    <!--          <el-input-->
-    <!--            v-model="role.description"-->
-    <!--            :autosize="{ minRows: 2, maxRows: 4}"-->
-    <!--            type="textarea"-->
-    <!--            placeholder="Role Description"-->
-    <!--          />-->
-    <!--        </el-form-item>-->
-    <!--        <el-form-item label="Menus">-->
-    <!--          <el-tree-->
-    <!--            ref="tree"-->
-    <!--            :check-strictly="checkStrictly"-->
-    <!--            :data="routesData"-->
-    <!--            :props="defaultProps"-->
-    <!--            show-checkbox-->
-    <!--            node-key="path"-->
-    <!--            class="permission-tree"-->
-    <!--          />-->
-    <!--        </el-form-item>-->
-    <!--      </el-form>-->
-    <!--      <div style="text-align:right;">-->
-    <!--        <el-button type="danger" @click="dialogVisible=false">Cancel</el-button>-->
-    <!--        <el-button type="primary" @click="confirmRole">Confirm</el-button>-->
-    <!--      </div>-->
-    <!--    </el-dialog>-->
+    <el-dialog
+      :visible.sync="dialogVisible"
+      :title="dialogType==='edit'?'Edit Role':'Добавлен новый админ'"
+    >
+      <el-form
+        ref="ruleForm"
+        :rules="roles"
+        :model="ruleForm"
+        autocomplete="on"
+      >
+        <el-col :lg="24">
+          <el-form-item
+            label="имя"
+            prop="first_name"
+          >
+            <el-input v-model.trim="ruleForm.first_name" />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="24">
+          <el-form-item
+            label="Фамилия"
+            prop="last_name"
+          >
+            <el-input v-model.trim="ruleForm.last_name" />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="24">
+          <el-form-item
+            label="Эл. адрес"
+            prop="email"
+          >
+            <el-input v-model.trim="ruleForm.email" />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="24">
+          <el-form-item
+            label="Пароль"
+            prop="password"
+          >
+            <el-input v-model.trim="ruleForm.password" />
+          </el-form-item>
+        </el-col>
+      </el-form>
+      <div style="text-align:right;">
+        <el-button
+          type="danger"
+          @click="resetForm('ruleForm')"
+        >
+          Cancel
+        </el-button>
+        <el-button
+          v-loading.fullscreen.lock="fullscreenLoading"
+          type="primary"
+          @click="submitForm('ruleForm')"
+        >
+          Confirm
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getAdminAll } from '@/api/userInfo'
-
-const defaultRole = {
-  key: '',
-  name: '',
-  description: '',
-  routes: []
-}
-
+import { Default, Email } from '@/validators/validators'
+import { adminCreate } from '@/api/admin'
+// imprt {adminCreate}
 export default {
   data() {
+    const defaults = Default
+    const Emails = Email
     return {
-      role: Object.assign({}, defaultRole),
-      routes: [],
       rolesList: [],
       dialogVisible: false,
-      dialogType: 'new',
-      checkStrictly: false,
-      defaultProps: {
-        children: 'children',
-        label: 'title'
+      fullscreenLoading: false,
+      dialogType: false,
+      ruleForm: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: ''
+      },
+      roles: {
+        first_name: [{ required: true, trigger: 'change', validator: defaults }],
+        last_name: [{ required: true, trigger: 'change', validator: defaults}],
+        email: [{ required: true, trigger: 'change', validator: Emails }],
+        password: [{ required: true, trigger: 'change', validator: defaults }]
       }
     }
   },
@@ -130,9 +130,63 @@ export default {
       })
   },
   methods: {
-    getAdminAll
+    getAdminAll,
+    adminCreate,
+    submitForm: function() {
+      this.$refs.ruleForm.validate(valid => {
+          if (valid) {
+            this.fullscreenLoading = true
+            this.adminCreate(this.ruleForm)
+              .then(res => {
+                this.$notify({
+                  title: 'Успех',
+                  message: "Добавить нового администратора",
+                  type: 'success',
+                  // type: 'error',
+                  duration: 2000
+                })
+                console.log(res)
+              })
+              .catch(err => {
+                console.log(err)
+                this.$notify({
+                  title: 'Ошибка',
+                  message: "Ошибка добавления нового администратора",
+                  // type: 'success',
+                  type: 'error',
+                  duration: 2000
+                })
+              })
+              .finally(() => {
+              this.fullscreenLoading = false
+              this.dialogVisible = false
+              })
+            }
+          else
+            {
+              console.log('error submit!!')
+              return false
+            }
+          }
+        )
+
+        },
+        resetForm(formName)
+      {
+        this.$refs[formName].resetFields()
+      }
+    ,
+      handleAddRole()
+      {
+        this.dialogVisible = true
+
+      }
+    ,
+      confirmRole()
+      {
+      }
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
