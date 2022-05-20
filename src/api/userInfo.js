@@ -6,13 +6,13 @@ export function userPersolnData() {
   })
 }
 
-// export function getRoles() {
-//   return request({
-//     url: '/vue-element-admin/roles',
-//     method: 'get'
-//   })
-// }
-//
+export function getAdminAll() {
+  return request({
+    url: '/admin/all',
+    method: 'get'
+  })
+}
+
 // export function addRole(data) {
 //   return request({
 //     url: '/vue-element-admin/role',

@@ -1,11 +1,20 @@
 <template>
-  <div v-show="value" class="vue-image-crop-upload">
+  <div
+    v-show="value"
+    class="vue-image-crop-upload"
+  >
     <div class="vicp-wrap">
-      <div class="vicp-close" @click="off">
+      <div
+        class="vicp-close"
+        @click="off"
+      >
         <i class="vicp-icon4" />
       </div>
 
-      <div v-show="step == 1" class="vicp-step1">
+      <div
+        v-show="step === 1"
+        class="vicp-step1"
+      >
         <div
           class="vicp-drop-area"
           @dragleave="preventDefault"
@@ -14,30 +23,58 @@
           @click="handleClick"
           @drop="handleChange"
         >
-          <i v-show="loading != 1" class="vicp-icon1">
+          <i
+            v-show="loading !== 1"
+            class="vicp-icon1"
+          >
             <i class="vicp-icon1-arrow" />
             <i class="vicp-icon1-body" />
             <i class="vicp-icon1-bottom" />
           </i>
-          <span v-show="loading !== 1" class="vicp-hint">{{ lang.hint }}</span>
-          <span v-show="!isSupported" class="vicp-no-supported-hint">{{ lang.noSupported }}</span>
-          <input v-show="false" v-if="step == 1" ref="fileinput" type="file" @change="handleChange">
+          <span
+            v-show="loading !== 1"
+            class="vicp-hint"
+          >{{ lang.hint }}</span>
+          <span
+            v-show="!isSupported"
+            class="vicp-no-supported-hint"
+          >{{ lang.noSupported }}</span>
+          <input
+            v-show="false"
+            v-if="step === 1"
+            ref="fileinput"
+            type="file"
+            @change="handleChange"
+          >
         </div>
-        <div v-show="hasError" class="vicp-error">
+        <div
+          v-show="hasError"
+          class="vicp-error"
+        >
           <i class="vicp-icon2" />
           {{ errorMsg }}
         </div>
         <div class="vicp-operate">
-          <a @click="off" @mousedown="ripple">{{ lang.btn.off }}</a>
+          <a
+            @click="off"
+            @mousedown="ripple"
+          >{{ lang.btn.off }}</a>
         </div>
       </div>
 
-      <div v-if="step == 2" class="vicp-step2">
+      <div
+        v-if="step === 2"
+        class="vicp-step2"
+      >
         <div class="vicp-crop">
-          <div v-show="true" class="vicp-crop-left">
+          <div
+            v-show="true"
+            class="vicp-crop-left"
+          >
             <div class="vicp-img-container">
               <img
                 ref="img"
+                alt="alt"
                 :src="sourceImgUrl"
                 :style="sourceImgStyle"
                 class="vicp-img"
@@ -58,8 +95,14 @@
                 @mouseup="createImg"
                 @mouseout="createImg"
               >
-              <div :style="sourceImgShadeStyle" class="vicp-img-shade vicp-img-shade-1" />
-              <div :style="sourceImgShadeStyle" class="vicp-img-shade vicp-img-shade-2" />
+              <div
+                :style="sourceImgShadeStyle"
+                class="vicp-img-shade vicp-img-shade-1"
+              />
+              <div
+                :style="sourceImgShadeStyle"
+                class="vicp-img-shade vicp-img-shade-2"
+              />
             </div>
 
             <div class="vicp-range">
@@ -85,51 +128,113 @@
               />
             </div>
 
-            <div v-if="!noRotate" class="vicp-rotate">
-              <i @mousedown="startRotateLeft" @mouseout="endRotate" @mouseup="endRotate">↺</i>
-              <i @mousedown="startRotateRight" @mouseout="endRotate" @mouseup="endRotate">↻</i>
+            <div
+              v-if="!noRotate"
+              class="vicp-rotate"
+            >
+              <i
+                @mousedown="startRotateLeft"
+                @mouseout="endRotate"
+                @mouseup="endRotate"
+              >↺</i>
+              <i
+                @mousedown="startRotateRight"
+                @mouseout="endRotate"
+                @mouseup="endRotate"
+              >↻</i>
             </div>
           </div>
-          <div v-show="true" class="vicp-crop-right">
+          <div
+            v-show="true"
+            class="vicp-crop-right"
+          >
             <div class="vicp-preview">
-              <div v-if="!noSquare" class="vicp-preview-item">
-                <img :src="createImgUrl" :style="previewStyle">
+              <div
+                v-if="!noSquare"
+                class="vicp-preview-item"
+              >
+                <img
+                  alt="alt"
+                  :src="createImgUrl"
+                  :style="previewStyle"
+                >
                 <span>{{ lang.preview }}</span>
               </div>
-              <div v-if="!noCircle" class="vicp-preview-item vicp-preview-item-circle">
-                <img :src="createImgUrl" :style="previewStyle">
+              <div
+                v-if="!noCircle"
+                class="vicp-preview-item vicp-preview-item-circle"
+              >
+                <img
+                  alt="alt"
+                  :src="createImgUrl"
+                  :style="previewStyle"
+                >
                 <span>{{ lang.preview }}</span>
               </div>
             </div>
           </div>
         </div>
         <div class="vicp-operate">
-          <a @click="setStep(1)" @mousedown="ripple">{{ lang.btn.back }}</a>
-          <a class="vicp-operate-btn" @click="prepareUpload" @mousedown="ripple">{{ lang.btn.save }}</a>
+          <a
+            @click="setStep(1)"
+            @mousedown="ripple"
+          >{{ lang.btn.back }}</a>
+          <a
+            class="vicp-operate-btn"
+            @click="prepareUpload"
+            @mousedown="ripple"
+          >{{ lang.btn.save }}</a>
         </div>
       </div>
 
-      <div v-if="step == 3" class="vicp-step3">
+      <div
+        v-if="step === 3"
+        class="vicp-step3"
+      >
         <div class="vicp-upload">
-          <span v-show="loading === 1" class="vicp-loading">{{ lang.loading }}</span>
+          <span
+            v-show="loading === 1"
+            class="vicp-loading"
+          >{{ lang.loading }}</span>
           <div class="vicp-progress-wrap">
-            <span v-show="loading === 1" :style="progressStyle" class="vicp-progress" />
+            <span
+              v-show="loading === 1"
+              :style="progressStyle"
+              class="vicp-progress"
+            />
           </div>
-          <div v-show="hasError" class="vicp-error">
+          <div
+            v-show="hasError"
+            class="vicp-error"
+          >
             <i class="vicp-icon2" />
             {{ errorMsg }}
           </div>
-          <div v-show="loading === 2" class="vicp-success">
+          <div
+            v-show="loading === 2"
+            class="vicp-success"
+          >
             <i class="vicp-icon3" />
             {{ lang.success }}
           </div>
         </div>
         <div class="vicp-operate">
-          <a @click="setStep(2)" @mousedown="ripple">{{ lang.btn.back }}</a>
-          <a @click="off" @mousedown="ripple">{{ lang.btn.close }}</a>
+          <a
+            @click="setStep(2)"
+            @mousedown="ripple"
+          >{{ lang.btn.back }}</a>
+          <a
+            @click="off"
+            @mousedown="ripple"
+          >{{ lang.btn.close }}</a>
         </div>
       </div>
-      <canvas v-show="false" ref="canvas" :width="width" :height="height" />
+      <canvas
+        v-show="false"
+        ref="canvas"
+        :width="width"
+        :height="height"
+      />
     </div>
   </div>
 </template>
@@ -141,6 +246,7 @@ import language from './utils/language.js'
 import mimes from './utils/mimes.js'
 import data2blob from './utils/data2blob.js'
 import effectRipple from './utils/effectRipple.js'
+
 export default {
   props: {
     // 域，上传文件name，触发事件会带上（如果一个页面多个图片上传控件，可以做区分
@@ -479,7 +585,7 @@ export default {
     // 设置图片源
     setSourceImg(file) {
       const fr = new FileReader()
-      fr.onload = e => {
+      fr.onload = () => {
         this.sourceImgUrl = fr.result
         this.startCrop()
       }
@@ -591,7 +697,7 @@ export default {
       scale.y = rY
     },
     // 按钮按下开始向右旋转
-    startRotateRight(e) {
+    startRotateRight() {
       const { scale } = this
       scale.rotateRight = true
       const rotate = () => {
@@ -606,7 +712,7 @@ export default {
       rotate()
     },
     // 按钮按下开始向左旋转
-    startRotateLeft(e) {
+    startRotateLeft() {
       const { scale } = this
       scale.rotateLeft = true
       const rotate = () => {
@@ -627,7 +733,7 @@ export default {
       scale.rotateRight = false
     },
     // 按钮按下开始放大
-    startZoomAdd(e) {
+    startZoomAdd() {
       const { scale } = this
       scale.zoomAddOn = true
       const zoom = () => {
@@ -642,11 +748,11 @@ export default {
       zoom()
     },
     // 按钮松开或移开取消放大
-    endZoomAdd(e) {
+    endZoomAdd() {
       this.scale.zoomAddOn = false
     },
     // 按钮按下开始缩小
-    startZoomSub(e) {
+    startZoomSub() {
       const { scale } = this
       scale.zoomSubOn = true
       const zoom = () => {
@@ -661,7 +767,7 @@ export default {
       zoom()
     },
     // 按钮松开或移开取消缩小
-    endZoomSub(e) {
+    endZoomSub() {
       const { scale } = this
       scale.zoomSubOn = false
     },
@@ -793,7 +899,7 @@ export default {
       this.setStep(3)
       request({
         url,
-        method: 'post',
+        method: 'patch',
         data: fmData
       })
         .then(resData => {
@@ -819,7 +925,6 @@ export default {
 </script>
 
 <style lang="scss">
-@charset "UTF-8";
 @-webkit-keyframes vicp_progress {
   0% {
     background-position-y: 0;
@@ -828,6 +933,7 @@ export default {
     background-position-y: 40px;
   }
 }
+
 @keyframes vicp_progress {
   0% {
     background-position-y: 0;
@@ -836,6 +942,7 @@ export default {
     background-position-y: 40px;
   }
 }
+
 @-webkit-keyframes vicp {
   0% {
     opacity: 0;
@@ -848,6 +955,7 @@ export default {
     transform: scale(1) translatey(0);
   }
 }
+
 @keyframes vicp {
   0% {
     opacity: 0;
@@ -860,6 +968,7 @@ export default {
     transform: scale(1) translatey(0);
   }
 }
+
 .vue-image-crop-upload {
   position: fixed;
   display: block;
@@ -876,6 +985,7 @@ export default {
   -webkit-tap-highlight-color: transparent;
   -moz-tap-highlight-color: transparent;
 }
+
 .vue-image-crop-upload .vicp-wrap {
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
@@ -897,11 +1007,13 @@ export default {
   -webkit-animation: vicp 0.12s ease-in;
   animation: vicp 0.12s ease-in;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-close {
   position: absolute;
   right: -30px;
   top: -30px;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-close .vicp-icon4 {
   position: relative;
   display: block;
@@ -910,12 +1022,12 @@ export default {
   cursor: pointer;
   -webkit-transition: -webkit-transform 0.18s;
   transition: -webkit-transform 0.18s;
-  transition: transform 0.18s;
   transition: transform 0.18s, -webkit-transform 0.18s;
   -webkit-transform: rotate(0);
   -ms-transform: rotate(0);
   transform: rotate(0);
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-close .vicp-icon4::after,
 .vue-image-crop-upload .vicp-wrap .vicp-close .vicp-icon4::before {
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
@@ -931,16 +1043,19 @@ export default {
   transform: rotate(45deg);
   background-color: #fff;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-close .vicp-icon4::after {
   -webkit-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-close .vicp-icon4:hover {
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-step1 .vicp-drop-area {
   position: relative;
   -webkit-box-sizing: border-box;
@@ -952,6 +1067,7 @@ export default {
   border: 1px dashed rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-step1 .vicp-drop-area .vicp-icon1 {
   display: block;
   margin: 0 auto 6px;
@@ -959,12 +1075,8 @@ export default {
   height: 42px;
   overflow: hidden;
 }
-.vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step1
-  .vicp-drop-area
-  .vicp-icon1
-  .vicp-icon1-arrow {
+
+.vue-image-crop-upload .vicp-wrap .vicp-step1 .vicp-drop-area .vicp-icon1 .vicp-icon1-arrow {
   display: block;
   margin: 0 auto;
   width: 0;
@@ -973,31 +1085,32 @@ export default {
   border-left: 14.7px solid transparent;
   border-right: 14.7px solid transparent;
 }
-.vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step1
-  .vicp-drop-area
-  .vicp-icon1
-  .vicp-icon1-body {
+
+.vue-image-crop-upload .vicp-wrap .vicp-step1 .vicp-drop-area .vicp-icon1 .vicp-icon1-body {
   display: block;
   width: 12.6px;
   height: 14.7px;
   margin: 0 auto;
   background-color: rgba(0, 0, 0, 0.3);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step1
-  .vicp-drop-area
-  .vicp-icon1
-  .vicp-icon1-bottom {
+.vicp-wrap
+.vicp-step1
+.vicp-drop-area
+.vicp-icon1
+.vicp-icon1-bottom {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  display: block;
   height: 12.6px;
   border: 6px solid rgba(0, 0, 0, 0.3);
   border-top: none;
 }
+
+.vue-image-crop-upload .vicp-wrap .vicp-step1 .vicp-drop-area .vicp-icon1 .vicp-icon1-bottom {
+  display: block;
+}
+
 .vue-image-crop-upload .vicp-wrap .vicp-step1 .vicp-drop-area .vicp-hint {
   display: block;
   padding: 15px;
@@ -1005,11 +1118,12 @@ export default {
   color: #666;
   line-height: 30px;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step1
-  .vicp-drop-area
-  .vicp-no-supported-hint {
+.vicp-wrap
+.vicp-step1
+.vicp-drop-area
+.vicp-no-supported-hint {
   display: block;
   position: absolute;
   top: 0;
@@ -1023,23 +1137,27 @@ export default {
   color: #666;
   font-size: 14px;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-step1 .vicp-drop-area:hover {
   cursor: pointer;
   border-color: rgba(0, 0, 0, 0.1);
   background-color: rgba(0, 0, 0, 0.05);
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-step2 .vicp-crop {
   overflow: hidden;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-step2 .vicp-crop .vicp-crop-left {
   float: left;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-img-container {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-img-container {
   position: relative;
   display: block;
   width: 240px;
@@ -1047,13 +1165,14 @@ export default {
   background-color: #e5e5e0;
   overflow: hidden;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-img-container
-  .vicp-img {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-img-container
+.vicp-img {
   position: absolute;
   display: block;
   cursor: move;
@@ -1062,55 +1181,60 @@ export default {
   -ms-user-select: none;
   user-select: none;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-img-container
-  .vicp-img-shade {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-img-container
+.vicp-img-shade {
   -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
   position: absolute;
   background-color: rgba(241, 242, 243, 0.8);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-img-container
-  .vicp-img-shade.vicp-img-shade-1 {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-img-container
+.vicp-img-shade.vicp-img-shade-1 {
   top: 0;
   left: 0;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-img-container
-  .vicp-img-shade.vicp-img-shade-2 {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-img-container
+.vicp-img-shade.vicp-img-shade-2 {
   bottom: 0;
   right: 0;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-rotate {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-rotate {
   position: relative;
   width: 240px;
   height: 18px;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-rotate
-  i {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-rotate
+i {
   display: block;
   width: 18px;
   height: 18px;
@@ -1123,61 +1247,66 @@ export default {
   color: #fff;
   overflow: hidden;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-rotate
-  i:hover {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-rotate
+i:hover {
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.14);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-rotate
-  i:first-child {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-rotate
+i:first-child {
   float: left;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-rotate
-  i:last-child {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-rotate
+i:last-child {
   float: right;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range {
   position: relative;
   margin: 30px 0 10px 0;
   width: 240px;
   height: 18px;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  .vicp-icon5,
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+.vicp-icon5,
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  .vicp-icon6 {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+.vicp-icon6 {
   position: absolute;
   top: 0;
   width: 18px;
@@ -1185,41 +1314,44 @@ export default {
   border-radius: 100%;
   background-color: rgba(0, 0, 0, 0.08);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  .vicp-icon5:hover,
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+.vicp-icon5:hover,
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  .vicp-icon6:hover {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+.vicp-icon6:hover {
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.14);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  .vicp-icon5 {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+.vicp-icon5 {
   left: 0;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  .vicp-icon5::before {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+.vicp-icon5::before {
   position: absolute;
   content: "";
   display: block;
@@ -1229,22 +1361,24 @@ export default {
   height: 2px;
   background-color: #fff;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  .vicp-icon6 {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+.vicp-icon6 {
   right: 0;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  .vicp-icon6::before {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+.vicp-icon6::before {
   position: absolute;
   content: "";
   display: block;
@@ -1254,13 +1388,14 @@ export default {
   height: 2px;
   background-color: #fff;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  .vicp-icon6::after {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+.vicp-icon6::after {
   position: absolute;
   content: "";
   display: block;
@@ -1270,13 +1405,14 @@ export default {
   height: 12px;
   background-color: #fff;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"] {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"] {
   display: block;
   padding-top: 5px;
   margin: 0 auto;
@@ -1293,22 +1429,24 @@ export default {
   /* 轨道
                ---------------------------------------------------------------*/
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]:focus {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]:focus {
   outline: none;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]::-webkit-slider-thumb {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]::-webkit-slider-thumb {
   -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
   -webkit-appearance: none;
@@ -1322,13 +1460,14 @@ export default {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]::-moz-range-thumb {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]::-moz-range-thumb {
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
   -moz-appearance: none;
   appearance: none;
@@ -1340,13 +1479,14 @@ export default {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]::-ms-thumb {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]::-ms-thumb {
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.18);
   appearance: none;
   width: 12px;
@@ -1357,48 +1497,52 @@ export default {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]:active::-moz-range-thumb {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]:active::-moz-range-thumb {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   width: 14px;
   height: 14px;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]:active::-ms-thumb {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]:active::-ms-thumb {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   width: 14px;
   height: 14px;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]:active::-webkit-slider-thumb {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]:active::-webkit-slider-thumb {
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   margin-top: -4px;
   width: 14px;
   height: 14px;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]::-webkit-slider-runnable-track {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]::-webkit-slider-runnable-track {
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   width: 100%;
@@ -1408,13 +1552,14 @@ export default {
   border: none;
   background-color: rgba(68, 170, 119, 0.3);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]::-moz-range-track {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]::-moz-range-track {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   width: 100%;
   height: 6px;
@@ -1423,13 +1568,14 @@ export default {
   border: none;
   background-color: rgba(68, 170, 119, 0.3);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]::-ms-track {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]::-ms-track {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   width: 100%;
   cursor: pointer;
@@ -1440,79 +1586,88 @@ export default {
   border-radius: 2px;
   border: none;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]::-ms-fill-lower {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]::-ms-fill-lower {
   background-color: rgba(68, 170, 119, 0.3);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]::-ms-fill-upper {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]::-ms-fill-upper {
   background-color: rgba(68, 170, 119, 0.15);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]:focus::-webkit-slider-runnable-track {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]:focus::-webkit-slider-runnable-track {
   background-color: rgba(68, 170, 119, 0.5);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]:focus::-moz-range-track {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]:focus::-moz-range-track {
   background-color: rgba(68, 170, 119, 0.5);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]:focus::-ms-fill-lower {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]:focus::-ms-fill-lower {
   background-color: rgba(68, 170, 119, 0.45);
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-left
-  .vicp-range
-  input[type="range"]:focus::-ms-fill-upper {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-left
+.vicp-range
+input[type="range"]:focus::-ms-fill-upper {
   background-color: rgba(68, 170, 119, 0.25);
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-step2 .vicp-crop .vicp-crop-right {
   float: right;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-right
-  .vicp-preview {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-right
+.vicp-preview {
   height: 150px;
   overflow: hidden;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-right
-  .vicp-preview
-  .vicp-preview-item {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-right
+.vicp-preview
+.vicp-preview-item {
   position: relative;
   padding: 5px;
   width: 100px;
@@ -1520,14 +1675,15 @@ export default {
   float: left;
   margin-right: 16px;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-right
-  .vicp-preview
-  .vicp-preview-item
-  span {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-right
+.vicp-preview
+.vicp-preview-item
+span {
   position: absolute;
   bottom: -30px;
   width: 100%;
@@ -1536,14 +1692,15 @@ export default {
   display: block;
   text-align: center;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-right
-  .vicp-preview
-  .vicp-preview-item
-  img {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-right
+.vicp-preview
+.vicp-preview-item
+img {
   position: absolute;
   display: block;
   top: 0;
@@ -1560,25 +1717,28 @@ export default {
   -ms-user-select: none;
   user-select: none;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-right
-  .vicp-preview
-  .vicp-preview-item.vicp-preview-item-circle {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-right
+.vicp-preview
+.vicp-preview-item.vicp-preview-item-circle {
   margin-right: 0;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step2
-  .vicp-crop
-  .vicp-crop-right
-  .vicp-preview
-  .vicp-preview-item.vicp-preview-item-circle
-  img {
+.vicp-wrap
+.vicp-step2
+.vicp-crop
+.vicp-crop-right
+.vicp-preview
+.vicp-preview-item.vicp-preview-item-circle
+img {
   border-radius: 100%;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-step3 .vicp-upload {
   position: relative;
   -webkit-box-sizing: border-box;
@@ -1589,6 +1749,7 @@ export default {
   text-align: center;
   border: 1px dashed #ddd;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-step3 .vicp-upload .vicp-loading {
   display: block;
   padding: 15px;
@@ -1596,17 +1757,19 @@ export default {
   color: #999;
   line-height: 30px;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-step3 .vicp-upload .vicp-progress-wrap {
   margin-top: 12px;
   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 3px;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step3
-  .vicp-upload
-  .vicp-progress-wrap
-  .vicp-progress {
+.vicp-wrap
+.vicp-step3
+.vicp-upload
+.vicp-progress-wrap
+.vicp-progress {
   position: relative;
   display: block;
   height: 5px;
@@ -1617,35 +1780,36 @@ export default {
   -webkit-transition: width 0.15s linear;
   transition: width 0.15s linear;
   background-image: -webkit-linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.2) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.2) 75%,
-    transparent 75%,
-    transparent
+      135deg,
+      rgba(255, 255, 255, 0.2) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.2) 75%,
+      transparent 75%,
+      transparent
   );
   background-image: linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.2) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.2) 75%,
-    transparent 75%,
-    transparent
+      -45deg,
+      rgba(255, 255, 255, 0.2) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.2) 75%,
+      transparent 75%,
+      transparent
   );
   background-size: 40px 40px;
   -webkit-animation: vicp_progress 0.5s linear infinite;
   animation: vicp_progress 0.5s linear infinite;
 }
+
 .vue-image-crop-upload
-  .vicp-wrap
-  .vicp-step3
-  .vicp-upload
-  .vicp-progress-wrap
-  .vicp-progress::after {
+.vicp-wrap
+.vicp-step3
+.vicp-upload
+.vicp-progress-wrap
+.vicp-progress::after {
   content: "";
   position: absolute;
   display: block;
@@ -1659,16 +1823,19 @@ export default {
   border-radius: 100%;
   background-color: #4a7;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-step3 .vicp-upload .vicp-error,
 .vue-image-crop-upload .vicp-wrap .vicp-step3 .vicp-upload .vicp-success {
   height: 100px;
   line-height: 100px;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-operate {
   position: absolute;
   right: 20px;
   bottom: 20px;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-operate a {
   position: relative;
   float: left;
@@ -1688,9 +1855,11 @@ export default {
   -ms-user-select: none;
   user-select: none;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-operate a:hover {
   background-color: rgba(0, 0, 0, 0.03);
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-error,
 .vue-image-crop-upload .vicp-wrap .vicp-success {
   display: block;
@@ -1701,9 +1870,11 @@ export default {
   text-align: center;
   vertical-align: top;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-success {
   color: #4a7;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-icon3 {
   position: relative;
   display: inline-block;
@@ -1711,6 +1882,7 @@ export default {
   height: 20px;
   top: 4px;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-icon3::after {
   position: absolute;
   top: 3px;
@@ -1725,6 +1897,7 @@ export default {
   transform: rotate(45deg);
   content: "";
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-icon2 {
   position: relative;
   display: inline-block;
@@ -1732,6 +1905,7 @@ export default {
   height: 20px;
   top: 4px;
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-icon2::after,
 .vue-image-crop-upload .vicp-wrap .vicp-icon2::before {
   content: "";
@@ -1745,11 +1919,13 @@ export default {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
 .vue-image-crop-upload .vicp-wrap .vicp-icon2::after {
   -webkit-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
+
 .e-ripple {
   position: absolute;
   border-radius: 100%;
@@ -1765,6 +1941,7 @@ export default {
   transform: scale(0);
   opacity: 1;
 }
+
 .e-ripple.z-active {
   opacity: 0;
   -webkit-transform: scale(2);
@@ -1774,6 +1951,6 @@ export default {
   transition: opacity 1.2s ease-out, -webkit-transform 0.6s ease-out;
   transition: opacity 1.2s ease-out, transform 0.6s ease-out;
   transition: opacity 1.2s ease-out, transform 0.6s ease-out,
-    -webkit-transform 0.6s ease-out;
+  -webkit-transform 0.6s ease-out;
 }
 </style>

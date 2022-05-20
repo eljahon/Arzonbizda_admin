@@ -79,11 +79,9 @@ export const asyncRoutes = [
   {
     path: '/permission',
     component: Layout,
-    redirect: '/permission/role',
     name: 'Permission',
     meta: {
-      title: 'Permission',
-      icon: 'lock',
+      icon: 'people',
       roles: ['superadmin'] // you can set roles in root nav
     },
     children: [
@@ -92,7 +90,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/role'),
         name: 'RolePermission',
         meta: {
-          title: 'Role Permission',
+          title: 'Админы',
           roles: ['superadmin']
         }
       }

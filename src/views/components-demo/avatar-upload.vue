@@ -2,21 +2,26 @@
 import ImageCropper from '@/components/ImageCropper'
 import PanThumb from '@/components/PanThumb'
 import userImages from '../../assets/userImages.png'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'AvatarUploadDemo',
   components: { ImageCropper, PanThumb },
-  data() {
+  data: function() {
     return {
       imagecropperShow: false,
       imagecropperKey: 0,
-      image: userImages
+      image: userImages,
+      header: {
+        'Authorization': getToken()
+      }
     }
   },
   methods: {
     cropSuccess(resData) {
+      console.log(resData)
       this.imagecropperShow = false
       this.imagecropperKey = this.imagecropperKey + 1
-      this.image = resData.files.avatar
+      this.image = process.env.VUE_APP_BASE_API + resData.src
     },
     close() {
       this.imagecropperShow = false
@@ -26,15 +31,6 @@ export default {
 </script>
 <template>
   <div class="components-container">
-    <!-- <aside>
-      This is based on
-      <a class="link-type" href="//github.com/dai-siki/vue-image-crop-upload">
-        vue-image-crop-upload</a
-      >. Since I was using only the vue@1 version, and it is not compatible with
-      mockjs at the moment, I modified it myself, and if you are going to use
-      it, it is better to use official version.
-    </aside> -->
-
     <pan-thumb :image="image" />
     <div class="btns__box">
       <el-button
@@ -60,8 +56,9 @@ export default {
       :key="imagecropperKey"
       :width="300"
       :height="300"
-      url="https://httpbin.org/post"
+      url="https://arzonbizda.herokuapp.com/admin/admin-avatar"
       lang-type="en"
+      :headers="header"
       @close="close"
       @crop-upload-success="cropSuccess"
     />
@@ -73,12 +70,17 @@ export default {
   display: flex;
 }
 .profile__setting__btn {
-  font-family: "SF Pro";
+  font-family: "SF Pro",serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 16px;
 }
+
+.profile__setting__btn {
+  font-family: "SF Pro",serif;
+}
+
 .btn__size__newImg__blue {
   margin-top: 30px;
   width: 301px;
