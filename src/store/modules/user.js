@@ -51,13 +51,13 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit }) {
+  getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       const data = {
         avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         introduction: 'I am a super administrator',
         name: 'Super Admin',
-        roles: ['admin']
+        roles: [state.username.role]
       }
       // getInfo(state.token).then(response => {
       //   const { data } = response

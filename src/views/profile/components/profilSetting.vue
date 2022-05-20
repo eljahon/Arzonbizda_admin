@@ -1,16 +1,15 @@
 <script>
 export default {
-  props: {
-    user: {
-      type: Object,
-      default: () => {
-        return {
-          name: '',
-          email: '',
-          password: ''
-        }
+  data() {
+    return {
+      user: {
+        name: '',
+        email: '',
+        password: ''
       }
     }
+  },
+  mounted() {
   },
   methods: {
     submit() {

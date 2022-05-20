@@ -51,17 +51,24 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+// import { validUsername } from '@/utils/validate'
 // import SocialSign from './components/SocialSignin'
 export default {
   name: 'Login',
   // components: { SocialSign },
-  data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct email'))
-      } else {
+  data: function() {
+    // const validatePhone = (rule, value, callback) => {
+    //   if (/^[+][9][9][8]\d{9}$/.test(value)) {
+    //     callback()
+    //   } else {
+    //     callback(new Error(this.$t('incorrectPhone')))
+    //   }
+    // }
+    const validateEmail = (rule, value, callback) => {
+      if (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
         callback()
+      } else {
+        callback(new Error('email not error'))
       }
     }
     const validatePassword = (rule, value, callback) => {
@@ -77,7 +84,7 @@ export default {
         password: ''
       },
       loginRules: {
-        email: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
@@ -129,6 +136,7 @@ export default {
       })
     },
     handleLogin() {
+      console.log(this.loginForm)
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
