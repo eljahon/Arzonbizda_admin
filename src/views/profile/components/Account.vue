@@ -1,131 +1,185 @@
-<script>
-import Upload from '../../components-demo/avatar-upload'
-export default {
-  components: {
-    Upload
-  },
-  props: {
-    user: {
-      type: Object,
-      default: () => {
-        return {
-          name: '',
-          email: ''
-        }
-      }
-    }
-  },
-  methods: {
-    submit() {
-      this.$message({
-        message: 'User information has been updated successfully',
-        type: 'success',
-        duration: 5 * 1000
-      })
-    }
-  }
-}
-</script>
-
+<!--suppress ALL -->
 <template>
-  <el-form>
-    <el-row>
+  <el-row>
+    <div style="margin-left: 20px">
       <el-col><Upload /></el-col>
-      <el-col :lg="10">
+      <el-col :lg="14">
         <el-row>
-          <el-col :lg="24">
-            <el-form-item class="form__label__style" label="Имя">
-              <el-input v-model.trim="user.email" class="accaunt__input" />
-            </el-form-item>
-          </el-col>
-          <el-col :lg="24">
-            <el-form-item label="Фамилия" class="form__label__style">
-              <el-input v-model.trim="user.email" class="accaunt__input" />
-            </el-form-item>
-          </el-col>
-          <el-col :lg="24">
-            <el-form-item
-              class="form__label__style"
-              label="Адрес электронной почты"
-            >
-              <el-input v-model.trim="user.email" class="accaunt__input" />
-            </el-form-item>
-          </el-col>
-          <el-col :lg="24">
+          <el-col :lg="16">
             <el-row>
-              <el-form-item>
-                <div class="buttuns-warapper">
-                  <el-col :span="16" class="btn__full">
-                    <el-button
-                      class="profile__setting btn__full"
-                      icon="el-icon-document"
-                      type="primary"
-                      @click="submit"
-                    >Сохранить изменения</el-button>
-                  </el-col>
-                  <el-col :lg="8" class="btn__box btn__revert">
-                    <el-button
-                      class="profile__setting btn__full"
-                      style="float: right"
-                      icon="el-icon-circle-close"
-                      type="danger"
-                    >Отмена</el-button>
-                  </el-col>
-                </div>
-              </el-form-item>
+              <el-form
+                ref="profilForm"
+                :rules="roles"
+                :model="ruleForm"
+                autocomplete="on"
+              >
+                <el-col :lg="24">
+                  <el-form-item
+                    label="Имя"
+                    prop="first_name"
+                  >
+                    <el-input v-model.trim="ruleForm.first_name" />
+                  </el-form-item>
+                </el-col>
+                <el-col :lg="24">
+                  <el-form-item
+                    label="Фамилия"
+                    prop="last_name"
+                  >
+                    <el-input v-model.trim="ruleForm.last_name" />
+                  </el-form-item>
+
+                  <el-form-item
+                    label="Адрес электронной почты"
+                    prop="email"
+                  >
+                    <el-input v-model.trim="ruleForm.email" />
+                  </el-form-item>
+                </el-col>
+                <el-col :lg="24">
+                  <el-row>
+                    <!--                        <div class="buttuns-warapper">-->
+                    <el-col
+                      :sm="24"
+                      :lg="16"
+                      :md="16"
+                      :xs="16"
+                      class="btn__full"
+                    >
+                      <el-button
+                        v-loading.fullscreen.lock="fullscreenLoading"
+                        class="profile__setting__btn btn__full"
+                        icon="el-icon-document"
+                        type="primary"
+                        @click.native.prevent="submitForm"
+                      >
+                        Сохранить изменения
+                      </el-button>
+                    </el-col>
+                    <el-col
+                      :sm="24"
+                      :md="6"
+                      :lg="8"
+                      :xs="6"
+                      class="btn__full"
+                    >
+                      <el-button
+                        class="profile__setting__btn btn__full__revert"
+                        style="float: right"
+                        icon="el-icon-circle-close"
+                        type="danger"
+                        @click="resetForm"
+                      >
+                        Отмена
+                      </el-button>
+                    </el-col>
+                    <!--                        </div>-->
+                  </el-row>
+                </el-col>
+              </el-form>
             </el-row>
           </el-col>
         </el-row>
       </el-col>
-    </el-row>
-  </el-form>
+    </div>
+  </el-row>
 </template>
+<script>
+import Upload from '../../components-demo/avatar-upload'
+import { userPersolnData } from '@/api/userInfo'
+import { adminDataUpadate } from '@/api/admin'
+import { Default, Email } from '@/validators/validators'
+import {setUserName } from '@/utils/auth'
 
+export default {
+  components: {
+    Upload
+  },
+  data() {
+    return {
+      ruleForm: {
+        first_name: '',
+        last_name: '',
+        email: ''
+      },
+      userAdminId: '',
+      fullscreenLoading: false,
+      roles: {
+        first_name: [{ required: true, trigger: 'change', validator: Default }],
+        last_name: [{ required: true, trigger: 'change', validator: Default }],
+        email: [{ required: true, trigger: 'change', validator: Email }]
+      }
+    }
+  },
+  mounted() {
+    this.getUserInfo()
+  },
+  methods: {
+    Default, Email,
+    adminDataUpadate,
+    submitForm() {
+      this.$refs.profilForm.validate((valid) => {
+        if (valid) {
+          // alert('submit!');
+          this.fullscreenLoading= true
+          this.adminDataUpadate(this.ruleForm, this.$route.query.userId)
+            .then(res => {
+              this.$notify({
+                title: 'Успех',
+                message: "Ваша личная информация обновлена",
+                type: 'success',
+                // type: 'error',
+                duration: 2000,
+                offset: 100
+              })
+              console.log(res)
+              this.getUserInfo()
+            })
+            .catch(err => {
+              this.$notify({
+                title: 'Ошибка',
+                message: "Ваша личная информация будет обновлена",
+                // type: 'success',
+                type: 'Warning',
+                duration: 2000,
+                offset: 100
+              })
+            })
+            .finally(() => {
+              this.fullscreenLoading = false
+            })
+          // console.log(this.ruleForm)
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm() {
+      this.$refs.profilForm.resetFields();
+    },
+    userPersolnData,
+    getUserInfo () {
+      this.userPersolnData()
+        .then(res => {
+          this.ruleForm = res.admin;
+          setUserName(res.admin)
+          this.$router.push({name: this.$route.name, query:{ userId: res.admin.id }})
+          console.log(res)
+        }).catch(err => {
+        console.log(err)
+      })
+    },
+    seteRoute (id) {
+      debugger
+
+    }
+  }
+}
+</script>
 <style scoped lang="scss">
 .buttuns-warapper {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-}
-.btn__box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.profile__setting__btn {
-  font-family: "SF Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 16px;
-}
-.accaunt__input {
-  font-family: "Yandex Sans Display";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 40px;
-  color: #242625;
-}
-.form__label__style {
-  font-family: "Yandex Sans Display";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 32px;
-  color: #4a4d4d;
-}
-@media (max-width: 433px) {
-  .buttuns-warapper {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .btn__revert {
-    margin-top: 10px;
-  }
-  .btn__full {
-    width: 100%;
-  }
 }
 </style>

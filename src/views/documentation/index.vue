@@ -51,6 +51,8 @@ export default {
 
         }
       })
+      //  Media Park
+      // Texnomart
       console.log(this.list)
     }).finally(() => {
       this.listLoading = false

@@ -1,5 +1,5 @@
 import { login } from '@/api/user'
-import { getToken, setToken, removeToken, setgetUserName } from '@/utils/auth'
+import { getToken, setToken, removeToken, setUserName } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
@@ -42,7 +42,7 @@ const actions = {
         commit('SET_USER_NAME', admin)
         commit('SET_TOKEN', token)
         setToken(token)
-        setgetUserName(admin)
+        setUserName(admin)
         resolve()
       }).catch(error => {
         reject(error)
@@ -51,13 +51,13 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit }) {
+  getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       const data = {
         avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         introduction: 'I am a super administrator',
         name: 'Super Admin',
-        roles: ['admin']
+        roles: [state.username.role]
       }
       // getInfo(state.token).then(response => {
       //   const { data } = response
