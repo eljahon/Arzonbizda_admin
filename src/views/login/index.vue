@@ -1,3 +1,124 @@
+<script>
+import img from "@/assets/baseIcon.png";
+import title from "@/assets/arzonbizda.svg";
+export default {
+  name: "Login",
+  data: function () {
+    const validateEmail = (rule, value, callback) => {
+      if (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+        callback();
+      } else {
+        callback(new Error("email not error"));
+      }
+    };
+    const validatePassword = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error("The password can not be less than 6 digits"));
+      } else {
+        callback();
+      }
+    };
+    return {
+      title: "arzoni bizda",
+      logo: img,
+      titleImg: title,
+      showLogo: true,
+      isCollapse: true,
+      loginForm: {
+        email: "",
+        password: "",
+      },
+      loginRules: {
+        email: [{ required: true, trigger: "blur", validator: validateEmail }],
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword },
+        ],
+      },
+      passwordType: "password",
+      capsTooltip: false,
+      loading: false,
+      showDialog: false,
+      redirect: undefined,
+      otherQuery: {},
+    };
+  },
+  watch: {
+    $route: {
+      handler: function (route) {
+        const query = route.query;
+        if (query) {
+          this.redirect = query.redirect;
+          this.otherQuery = this.getOtherQuery(query);
+        }
+      },
+      immediate: true,
+    },
+  },
+  created() {
+    // window.addEventListener('storage', this.afterQRScan)
+  },
+  mounted() {
+    if (this.loginForm.email === "") {
+      this.$refs.email.focus();
+    } else if (this.loginForm.password === "") {
+      this.$refs.password.focus();
+    }
+  },
+  destroyed() {
+    // window.removeEventListener('storage', this.afterQRScan)
+  },
+  methods: {
+    checkCapslock(e) {
+      const { key } = e;
+      this.capsTooltip = key && key.length === 1 && key >= "A" && key <= "Z";
+    },
+    showPwd() {
+      if (this.passwordType === "password") {
+        this.passwordType = "";
+      } else {
+        this.passwordType = "password";
+      }
+      this.$nextTick(() => {
+        this.$refs.password.focus();
+      });
+    },
+    handleLogin() {
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          this.loading = true;
+          // console.log(this.loginForm)
+          this.$store
+            .dispatch("user/login", this.loginForm)
+            .then(() => {
+              this.$router.push({
+                path: this.redirect || "/",
+                query: this.otherQuery,
+              });
+              this.loading = false;
+            })
+            .catch(() => {
+              this.loading = false;
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    refReshInpurtValue() {
+      this.$refs.loginForm.resetFields();
+    },
+    getOtherQuery(query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        if (cur !== "redirect") {
+          acc[cur] = query[cur];
+        }
+        return acc;
+      }, {});
+    },
+  },
+};
+</script>
 <template>
   <div class="login-container">
     <!--    <h2>Weekly Coding Challenge #1: Sign in/up Form</h2>-->
@@ -11,7 +132,7 @@
             <!--            <h1>Hello, Friend!</h1>-->
             <div
               class="sidebar-logo-container"
-              :class="{'collapse':true}"
+              :class="{ collapse: true }"
             >
               <transition name="sidebarLogoFade">
                 <router-link
@@ -24,7 +145,9 @@
                     class="sidebar-logo"
                   >
                   <h1 class="sidebar-title">
-                    <span class="sidebar-title-text"><img
+                    <span
+                      class="sidebar-title-text"
+                    ><img
                       :src="titleImg"
                       alt=""
                     ></span>
@@ -37,6 +160,24 @@
         </div>
       </div>
       <div class="form-container sign-in-container">
+        <router-link
+          key="expand"
+          class="sidebar-logo-link inputbar__logo"
+          to="/login"
+        >
+          <img
+            :src="logo"
+            class="sidebar-logo"
+          >
+          <h1 class="sidebar-title">
+            <span
+              class="sidebar-title-text"
+            ><img
+              :src="titleImg"
+              alt=""
+            ></span>
+          </h1>
+        </router-link>
         <el-form
           ref="loginForm"
           :model="loginForm"
@@ -45,13 +186,15 @@
           autocomplete="on"
           label-position="left"
         >
-          <h1>Admin</h1>
+          <h1 class="admin__word">
+            Admin
+          </h1>
           <div class="social-container">
             <a class="social"><i class="fab fa-facebook-f" /></a>
             <a class="social"><i class="fab fa-google-plus-g" /></a>
             <a class="social"><i class="fab fa-linkedin-in" /></a>
           </div>
-          <span style="margin-bottom: 15px;">or use your account</span>
+          <span style="margin-bottom: 15px">or use your account</span>
           <el-form-item
             prop="email"
             style="width: 100%"
@@ -106,134 +249,15 @@
   </div>
 </template>
 
-<script>
-import img from '@/assets/baseIcon.png'
-import title from '@/assets/arzonbizda.svg'
-export default {
-  name: 'Login',
-  data: function() {
-    const validateEmail = (rule, value, callback) => {
-      if (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
-        callback()
-      } else {
-        callback(new Error('email not error'))
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      title: 'arzoni bizda',
-      logo: img,
-      titleImg: title,
-      showLogo: true,
-      isCollapse: true,
-      loginForm: {
-        email: '',
-        password: ''
-      },
-      loginRules: {
-        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-      },
-      passwordType: 'password',
-      capsTooltip: false,
-      loading: false,
-      showDialog: false,
-      redirect: undefined,
-      otherQuery: {}
-    }
-  },
-  watch: {
-    $route: {
-      handler: function(route) {
-        const query = route.query
-        if (query) {
-          this.redirect = query.redirect
-          this.otherQuery = this.getOtherQuery(query)
-        }
-      },
-      immediate: true
-    }
-  },
-  created() {
-    // window.addEventListener('storage', this.afterQRScan)
-  },
-  mounted() {
-    if (this.loginForm.email === '') {
-      this.$refs.email.focus()
-    } else if (this.loginForm.password === '') {
-      this.$refs.password.focus()
-    }
-  },
-  destroyed() {
-    // window.removeEventListener('storage', this.afterQRScan)
-  },
-  methods: {
-    checkCapslock(e) {
-      const { key } = e
-      this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
-    },
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          // console.log(this.loginForm)
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    refReshInpurtValue () {
-      this.$refs.loginForm.resetFields()
-    },
-    getOtherQuery(query) {
-      return Object.keys(query).reduce((acc, cur) => {
-        if (cur !== 'redirect') {
-          acc[cur] = query[cur]
-        }
-        return acc
-      }, {})
-    }
-  }
-}
-</script>
-
-
 <style lang="scss" scoped>
-
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
 
 * {
   box-sizing: border-box;
 }
 .sidebar-logo-link {
   display: flex;
-  gap:10px;
-
+  gap: 10px;
 }
 .button-warapper {
   display: flex;
@@ -241,7 +265,7 @@ export default {
   .sigin-in {
     border-radius: 20px;
     border: 1px solid;
-    color: #FFFFFF;
+    color: #ffffff;
     font-size: 12px;
     font-weight: bold;
     padding: 12px 45px;
@@ -257,9 +281,9 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   height: 100vh;
-  margin: -20px 0 50px;
+  // margin: -20px 0 50px;
 }
 
 h1 {
@@ -292,9 +316,9 @@ a {
 
 .sigin-up {
   border-radius: 20px;
-  border: 1px solid #FF4B2B;
-  background-color: #FF4B2B;
-  color: #FFFFFF;
+  border: 1px solid #ff4b2b;
+  background-color: #ff4b2b;
+  color: #ffffff;
   font-size: 12px;
   font-weight: bold;
   padding: 12px 45px;
@@ -313,11 +337,11 @@ button:focus {
 
 button.ghost {
   background-color: transparent;
-  border-color: #FFFFFF;
+  border-color: #ffffff;
 }
 
 form {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -338,8 +362,7 @@ input {
 .container {
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25),
-  0 10px 10px rgba(0,0,0,0.22);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -382,12 +405,14 @@ input {
 }
 
 @keyframes show {
-  0%, 49.99% {
+  0%,
+  49.99% {
     opacity: 0;
     z-index: 1;
   }
 
-  50%, 100% {
+  50%,
+  100% {
     opacity: 1;
     z-index: 5;
   }
@@ -404,18 +429,18 @@ input {
   z-index: 100;
 }
 
-.container.right-panel-active .overlay-container{
+.container.right-panel-active .overlay-container {
   transform: translateX(-100%);
 }
 
 .overlay {
-  background: #FF416C;
-  background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-  background: linear-gradient(to right, #FF4B2B, #FF416C);
+  background: #ff416c;
+  background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
+  background: linear-gradient(to right, #ff4b2b, #ff416c);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
-  color: #FFFFFF;
+  color: #ffffff;
   position: relative;
   left: -100%;
   height: 100%;
@@ -465,7 +490,7 @@ input {
 }
 
 .social-container a {
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
   border-radius: 50%;
   display: inline-flex;
   justify-content: center;
@@ -498,6 +523,9 @@ footer i {
 footer a {
   color: #3c97bf;
   text-decoration: none;
+}
+.inputbar__logo {
+  display: none;
 }
 //$bg:#2d3a4b;
 //$dark_gray:#889aa4;
@@ -566,10 +594,71 @@ footer a {
 //    bottom: 6px;
 //  }
 //
-//  @media only screen and (max-width: 470px) {
-//    .thirdparty-button {
-//      display: none;
-//    }
-//  }
-//}
+@media (max-width: 800px) {
+  .admin__word {
+    margin-top: -140px;
+  }
+  .inputbar__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+  .container {
+    width: 500px;
+  }
+  .overlay-container {
+    display: none;
+  }
+  .form-container {
+    width: 100%;
+  }
+}
+@media (max-width: 580px) {
+  .container {
+    width: 400px;
+  }
+}
+@media (max-width: 452px) {
+  .container {
+    width: 300px;
+  }
+  .sigin-in {
+    border-radius: 20px;
+    border: 1px solid;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 8px 30px !important;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+    background-color: green;
+  }
+  .sigin-up {
+    border-radius: 20px;
+    border: 1px solid #ff4b2b;
+    background-color: #ff4b2b;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 30px !important;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+  }
+}
+@media (max-width: 332px) {
+  .container {
+    width: 280px;
+  }
+  .sigin-in {
+    border-radius: 14px;
+    padding: 10px 28px !important;
+  }
+  .sigin-up {
+    border-radius: 14px;
+    padding: 10px 28px !important;
+  }
+}
 </style>
