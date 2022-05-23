@@ -7,14 +7,16 @@ const state = {
   avatar: '',
   introduction: '',
   roles: [],
-  username: {...JSON.parse(getUserName())}
+  username: {},
 }
+
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
   SET_USER_NAME: (state, payload) => {
-    state.username = payload
+    state.username = payload;
+    state.listUserData = payload
   },
   SET_INTRODUCTION: (state, introduction) => {
     state.introduction = introduction
@@ -88,6 +90,8 @@ const actions = {
   logout({ commit, dispatch }) {
     commit('SET_TOKEN', '')
     commit('SET_ROLES', [])
+    commit('SET_USER_NAME', {})
+
     removeToken()
     resetRouter()
     removeUserName()
