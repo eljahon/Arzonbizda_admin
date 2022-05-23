@@ -1,62 +1,3 @@
-<template>
-  <div class="app-container">
-    <div class="clearfix" style="margin-bottom: 15px">
-      <!--        <span>Card name</span>-->
-      <span style="float:right;">
-        <el-button round icon="el-icon-plus" size="medium" type="primary">Новый магазин добавить</el-button>
-      </span>
-    </div>
-    <el-card>
-      <el-table
-        :key="tableKey"
-        :data="list"
-        highlight-current-row
-        style="width: 100%;"
-        @sort-change="sortChange"
-      >
-        <el-table-column
-          label="Магазин"
-          prop="name"
-          sortable="custom"
-          align="left"
-          :class-name="getSortClass('name')"
-        >
-          <!--          <template slot-scope="{row}">-->
-          <!--            <span>{{ row.name }}</span>-->
-          <!--          </template>-->
-        </el-table-column>
-        <el-table-column sortable="custom" label="Продукты" align="left">
-          <template slot-scope="{row}">
-            <span>{{ dayjs(row.createdAt).format('DD.MM.YYYY') }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column sortable="custom" label="Дата обноление" align="left">
-          <template slot-scope="{row}">
-            <span>{{ dayjs(row.updatedAt).format('DD.MM.YYYY') }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="Действие" align="left" class-name="small-padding fixed-width">
-          <template slot-scope="{row}">
-            <el-button icon="el-icon-refresh" size="mini" type="danger" @click="handleData(row)">
-              Обновить
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div>
-        <pagination
-          v-show="total>0"
-          style="float: right"
-          :total="total"
-          :page.sync="listQuery.page"
-          :limit.sync="listQuery.limit"
-          @pagination="getList"
-        />
-      </div>
-    </el-card>
-  </div>
-
-</template>
 
 <script>
 // import DropdownMenu from '@/components/Share/DropdownMenu'
@@ -151,6 +92,65 @@ export default {
   }
 }
 </script>
+<template>
+  <div class="app-container">
+    <div class="clearfix" style="margin-bottom: 15px">
+      <!--        <span>Card name</span>-->
+      <span style="float:right;">
+        <el-button round icon="el-icon-plus" size="medium" type="primary">Новый магазин добавить</el-button>
+      </span>
+    </div>
+    <el-card>
+      <el-table
+        :key="tableKey"
+        :data="list"
+        highlight-current-row
+        style="width: 100%;"
+        @sort-change="sortChange"
+      >
+        <el-table-column
+          label="Магазин"
+          prop="name"
+          sortable="custom"
+          align="left"
+          :class-name="getSortClass('name')"
+        >
+          <!--          <template slot-scope="{row}">-->
+          <!--            <span>{{ row.name }}</span>-->
+          <!--          </template>-->
+        </el-table-column>
+        <el-table-column sortable="custom" label="Продукты" align="left">
+          <template slot-scope="{row}">
+            <span>{{ dayjs(row.createdAt).format('DD.MM.YYYY') }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column sortable="custom" label="Дата обноление" align="left">
+          <template slot-scope="{row}">
+            <span>{{ dayjs(row.updatedAt).format('DD.MM.YYYY') }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Действие" align="left" class-name="small-padding fixed-width">
+          <template slot-scope="{row}">
+            <el-button icon="el-icon-refresh" size="mini" type="danger" @click="handleData(row)">
+              Обновить
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div>
+        <pagination
+          v-show="total>0"
+          style="float: right"
+          :total="total"
+          :page.sync="listQuery.page"
+          :limit.sync="listQuery.limit"
+          @pagination="getList"
+        />
+      </div>
+    </el-card>
+  </div>
+
+</template>
 
 <style lang="scss" scoped>
 .documentation-container {
