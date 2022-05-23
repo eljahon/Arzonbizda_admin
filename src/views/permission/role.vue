@@ -11,21 +11,37 @@
     </el-button>
 
     <el-table
-      :data="rolesList"
+      v-loading="tableLoading"
+      :data="adminList"
+      border
       style="width: 100%;margin-top:30px;"
     >
       <el-table-column
         label="имя"
+        prop="first_name"
       />
       <el-table-column
         label="Фамилия"
+        prop="last_name"
       />
       <el-table-column
         label="Эл. адрес"
+        prop="email"
       />
       <el-table-column
-        label="Пароль"
+        label="Роль"
+        prop="role"
       />
+      <el-table-column
+        label="Действия"
+        align="center"
+      >
+        <el-button
+          size="small"
+          icon="el-icon-delete"
+          type="danger"
+        />
+      </el-table-column>
     </el-table>
 
     <el-dialog
@@ -98,11 +114,11 @@ import { adminCreate } from '@/api/admin'
 export default {
   data() {
     const defaults = Default
-    const Emails = Email
     return {
-      rolesList: [],
+      adminList: [],
       dialogVisible: false,
       fullscreenLoading: false,
+      tableLoading: false,
       dialogType: false,
       ruleForm: {
         first_name: '',
@@ -113,7 +129,7 @@ export default {
       roles: {
         first_name: [{ required: true, trigger: 'change', validator: defaults }],
         last_name: [{ required: true, trigger: 'change', validator: defaults}],
-        email: [{ required: true, trigger: 'change', validator: Emails }],
+        email: [{ required: true, trigger: 'change', validator: Email }],
         password: [{ required: true, trigger: 'change', validator: defaults }]
       }
     }
@@ -124,10 +140,7 @@ export default {
     }
   },
   created() {
-    this.getAdminAll()
-      .then(res => {
-        console.log(res)
-      })
+    this.getAdminAllList()
   },
   methods: {
     getAdminAll,
@@ -146,6 +159,7 @@ export default {
                   duration: 2000
                 })
                 console.log(res)
+                this.getAdminAllList()
               })
               .catch(err => {
                 console.log(err)
@@ -171,20 +185,25 @@ export default {
         )
 
         },
-        resetForm(formName)
-      {
-        this.$refs[formName].resetFields()
-      }
-    ,
+        resetForm(formName) {
+          this.$refs[formName].resetFields()
+        },
       handleAddRole()
       {
         this.dialogVisible = true
 
-      }
-    ,
-      confirmRole()
-      {
-      }
+      },
+    getAdminAllList () {
+      this.tableLoading = true,
+        this.getAdminAll()
+          .then(res => {
+            this.adminList = res.data.admins
+            console.log(res)
+          })
+          .finally(() => {
+            this.tableLoading = false
+          })
+    }
     }
   }
 </script>

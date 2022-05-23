@@ -1,14 +1,13 @@
 import { login } from '@/api/user'
-import { getToken, setToken, removeToken, setUserName } from '@/utils/auth'
+import {getToken, setToken, removeToken, setUserName, getUserName, removeUserName} from '@/utils/auth'
 import router, { resetRouter } from '@/router'
-
 const state = {
   token: getToken(),
   name: '',
   avatar: '',
   introduction: '',
   roles: [],
-  username: {}
+  username: {...JSON.parse(getUserName())}
 }
 const mutations = {
   SET_TOKEN: (state, token) => {
@@ -33,6 +32,9 @@ const mutations = {
 
 const actions = {
   // user login
+  setUserNewData ({commit}, payload) {
+    commit('SET_USER_NAME', payload)
+  },
   login({ commit }, userInfo) {
     const { email, password } = userInfo
     return new Promise((resolve, reject) => {
@@ -51,16 +53,14 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo({ commit }) {
     return new Promise((resolve, reject) => {
       const data = {
         avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         introduction: 'I am a super administrator',
         name: 'Super Admin',
-        roles: [state.username.role]
+        roles: [JSON.parse(getUserName()).role]
       }
-      // getInfo(state.token).then(response => {
-      //   const { data } = response
 
       if (!data) {
         reject('Verification failed, please Login again.')
@@ -90,6 +90,7 @@ const actions = {
     commit('SET_ROLES', [])
     removeToken()
     resetRouter()
+    removeUserName()
     dispatch('tagsView/delAllViews', null, { root: true })
   },
 

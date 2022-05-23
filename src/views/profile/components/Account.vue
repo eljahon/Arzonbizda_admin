@@ -89,7 +89,7 @@ import Upload from '../../components-demo/avatar-upload'
 import { userPersolnData } from '@/api/userInfo'
 import { adminDataUpadate } from '@/api/admin'
 import { Default, Email } from '@/validators/validators'
-import {setUserName } from '@/utils/auth'
+import {getUserName, setUserName} from '@/utils/auth'
 
 export default {
   components: {
@@ -122,8 +122,8 @@ export default {
         if (valid) {
           // alert('submit!');
           this.fullscreenLoading= true
-          this.adminDataUpadate(this.ruleForm, this.$route.query.userId)
-            .then(res => {
+          this.adminDataUpadate(this.ruleForm, JSON.parse(getUserName()).id)
+            .then(() => {
               this.$notify({
                 title: 'Успех',
                 message: "Ваша личная информация обновлена",
@@ -132,10 +132,9 @@ export default {
                 duration: 2000,
                 offset: 100
               })
-              console.log(res)
               this.getUserInfo()
             })
-            .catch(err => {
+            .catch(() => {
               this.$notify({
                 title: 'Ошибка',
                 message: "Ваша личная информация будет обновлена",
@@ -162,18 +161,15 @@ export default {
     getUserInfo () {
       this.userPersolnData()
         .then(res => {
-          this.ruleForm = res.admin;
+          // this.ruleForm = res.admin;
           setUserName(res.admin)
-          this.$router.push({name: this.$route.name, query:{ userId: res.admin.id }})
+          this.$store.dispatch("user/setUserNewData", res.admin)
+          // this.$router.push({name: this.$route.name, query:{ userId: res.admin.id }})
           console.log(res)
         }).catch(err => {
         console.log(err)
       })
     },
-    seteRoute (id) {
-      debugger
-
-    }
   }
 }
 </script>

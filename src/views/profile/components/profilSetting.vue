@@ -79,8 +79,8 @@
 <script>
 import {Default} from "@/validators/validators"
 import {adminPasswordUpadate} from "@/api/admin"
+import {getUserName} from "@/utils/auth";
 export default {
-  props: ['userId'],
   data: function() {
     return {
       fullscreenLoading: false,
@@ -136,7 +136,7 @@ export default {
               password: this.ruleForm.oldpassowrd,
               newpassword: this.ruleForm.newpassword
             };
-            this.setAdminDataPassword(data, this.$route.query.userId)
+            this.setAdminDataPassword(data, JSON.parse(getUserName()).id)
           }
         } else {
           console.log('error submit!!');

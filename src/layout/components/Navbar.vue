@@ -38,22 +38,10 @@
             class="user-avatar"
             alt="this is images"
           >
-          <span class="user-name">{{ userData.last_name }}{{ ' '+userData.first_name }}</span>
+          <span class="user-name">{{ userName.last_name }}{{ ' '+userName.first_name }}</span>
           <i :class="cravings" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <!--          <router-link to="/profile/index">-->
-          <!--            <el-dropdown-item>Profile</el-dropdown-item>-->
-          <!--          </router-link>-->
-          <!--          <router-link to="/">-->
-          <!--            <el-dropdown-item>Dashboard</el-dropdown-item>-->
-          <!--          </router-link>-->
-          <!-- <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a> -->
-          <!-- <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a> -->
           <el-dropdown-item
             divided
             @click.native="logout"
@@ -89,7 +77,8 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'device'
+      'device',
+      'userName'
     ]),
     userData() {
       return JSON.parse(getUserName())
@@ -108,7 +97,6 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      window.location.reload();
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login`)
     }
