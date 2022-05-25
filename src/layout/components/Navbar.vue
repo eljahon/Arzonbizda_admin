@@ -38,7 +38,7 @@
             class="user-avatar"
             alt="this is images"
           >
-          <span class="user-name">{{ userName.last_name }}{{ ' '+userName.first_name }}</span>
+          <span class="user-name">{{ userInfor ?userInfoData.last_name : userData.last_name }}{{ userInfor ? ' '+userInfoData.first_name : ' '+userData.first_name }}</span>
           <i :class="cravings" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -71,7 +71,8 @@ export default {
   data() {
     return {
       avatar,
-      showdwon: false
+      showdwon: false,
+      userInfor: false
     }
   },
   computed: {
@@ -83,8 +84,16 @@ export default {
     userData() {
       return JSON.parse(getUserName())
     },
+    userInfoData () {
+      return this.userName
+    },
     cravings: function() {
       return this.showdwon ? 'el-icon-arrow-up' : 'el-icon-arrow-down'
+    }
+  },
+  watch: {
+    userInfoData () {
+    this.userInfor = true;
     }
   },
   mounted() {

@@ -133,6 +133,7 @@ export default {
                 offset: 100
               })
               this.getUserInfo()
+              this.resetForm()
             })
             .catch(() => {
               this.$notify({
