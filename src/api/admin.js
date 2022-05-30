@@ -16,6 +16,18 @@ export function adminCreate(data) {
     method: 'post',
     data
   })
+}export function blogCreate(data) {
+  const sendData  = new FormData();
+  data.forEach(el => {
+    sendData.append(el)
+    }
+  )
+
+  return request({
+    url: baseUrl.url,
+    method: 'post',
+    sendData
+  })
 }
 
 export function adminDataUpadate(data, id) {

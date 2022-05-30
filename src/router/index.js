@@ -72,6 +72,19 @@ export const constantRoutes = [
         meta: { title: 'Настройки', icon: 'settings', noCache: true }
       }
     ]
+  },
+  {
+    path: '/blogs',
+    component: Layout,
+    redirect: '/blogs/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/blogs/index'),
+        name: 'Blog',
+        meta: { title: 'Блоги', icon: 'blog', noCache: true }
+      }
+    ]
   }
 ]
 

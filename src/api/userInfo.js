@@ -13,13 +13,15 @@ export function getAdminAll() {
   })
 }
 
-// export function addRole(data) {
-//   return request({
-//     url: '/vue-element-admin/role',
-//     method: 'post',
-//     data
-//   })
-// }
+export function getAdminBlogAll(params) {
+  return request({
+    url: '/admin/blog/posts',
+    method: 'get',
+    params: {
+      ...params
+    }
+  })
+}
 //
 // export function updateRole(id, data) {
 //   return request({

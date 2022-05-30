@@ -129,7 +129,7 @@ export default {
       <div class="overlay-container">
         <div class="overlay">
           <div class="overlay-panel overlay-right">
-            <!--            <h1>Hello, Friend!</h1>-->
+            <!-- <h1>Hello, Friend!</h1> -->
             <div
               class="sidebar-logo-container"
               :class="{ collapse: true }"
