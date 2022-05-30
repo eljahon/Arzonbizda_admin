@@ -14,7 +14,7 @@
       v-loading="tableLoading"
       :data="blogList"
       border
-      style="width: 100%;margin-top:30px;"
+      style="width: 100%; margin-top: 30px"
       @row-click="clickItemRow"
     >
       <el-table-column
@@ -34,7 +34,7 @@
         prop="date"
       >
         <template slot-scope="scope">
-          {{ dayjs(scope.date).format('DD.MM.YYYY') }}
+          {{ dayjs(scope.date).format("DD.MM.YYYY") }}
         </template>
       </el-table-column>
       <el-table-column
@@ -67,18 +67,21 @@
     >
       <NewBlogAdd />
     </el-dialog>
+    <blog-card />
   </div>
 </template>
 
 <script>
-import { getAdminBlogAll } from '@/api/userInfo'
+import { getAdminBlogAll } from "@/api/userInfo";
 import NewBlogAdd from "@/views/blogs/newBlogAdd";
-import {getUserName} from "@/utils/auth";
-import dayjs from 'dayjs';
+import { getUserName } from "@/utils/auth";
+import dayjs from "dayjs";
+import BlogCard from "./blogCard.vue";
 // imprt {adminCreate}
 export default {
   components: {
-    NewBlogAdd
+    NewBlogAdd,
+    BlogCard,
   },
   data() {
     return {
@@ -88,65 +91,63 @@ export default {
       dialogType: false,
       params: {
         page: 1,
-        limit: 10
-      }
-    }
+        limit: 10,
+      },
+    };
   },
   computed: {
-    userRole () {
-      return JSON.parse(getUserName()).role
+    userRole() {
+      return JSON.parse(getUserName()).role;
     },
     routesData() {
-      return this.routes
-    }
+      return this.routes;
+    },
   },
   created() {
-    this.getAdminAllBlogList()
+    this.getAdminAllBlogList();
     // console.log(JSON.parse(getUserName()).role)
   },
   methods: {
-    clickItemRow (item){
-      console.log(item)
+    clickItemRow(item) {
+      console.log(item);
     },
-    editBlog (id) {
-      console.log(id)
+    editBlog(id) {
+      console.log(id);
     },
     deleteBlog(id) {
-      console.log(id)
+      console.log(id);
     },
-     dayjs,
+    dayjs,
     getAdminBlogAll,
-    handleAddRole()
-    {
-      this.dialogVisible = true
-
+    handleAddRole() {
+      this.dialogVisible = true;
     },
-    getAdminAllBlogList () {
-      this.tableLoading = true,
+    getAdminAllBlogList() {
+      (this.tableLoading = true),
         this.getAdminBlogAll(this.params)
-          .then(res => {
-            this.blogList = res.posts.map(el => {
+          .then((res) => {
+            this.blogList = res.posts.map((el) => {
               return {
-                email: el['admin.email'],
-                date: el['admin.createdAt'],
-                first_name: el['admin.first_name'],
-                last_name: el['admin.last_name'],
-                role: el['admin.role'],
-                title: el['title'],
-                description: el['body'],
-                image: process.env.VUE_APP_BASE_API+el['image'],
-                id: el['id'],
-                adminId: el['admin_id']
-              }
-            })
-            console.log(res)
+                email: el["admin.email"],
+                date: el["admin.createdAt"],
+                first_name: el["admin.first_name"],
+                last_name: el["admin.last_name"],
+                role: el["admin.role"],
+                title: el["title"],
+                description: el["body"],
+                image: process.env.VUE_APP_BASE_API + el["image"],
+                id: el["id"],
+                adminId: el["admin_id"],
+              };
+            });
+            console.log(res);
           })
           .finally(() => {
-            this.tableLoading = false
-          })
-    }
-  }
-}
+            this.tableLoading = false;
+          });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -159,5 +160,3 @@ export default {
   }
 }
 </style>
-
-

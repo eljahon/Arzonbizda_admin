@@ -66,87 +66,80 @@
 </template>
 
 <script>
-import { blogCreate } from '@/api/admin'
-import { Default } from '@/validators/validators'
+import { blogCreate } from "@/api/admin";
+import { Default } from "@/validators/validators";
 
 export default {
   name: "NewBlogAdd",
-  data () {
-    const defaults = Default
+  data() {
+    const defaults = Default;
     return {
       blogForm: {
-        title: '',
-        description: '',
-        avatar: ''
+        title: "",
+        description: "",
+        avatar: "",
       },
       roles: {
-        title: [{ required: true, trigger: 'change', validator: defaults }],
-        description: [{ required: true, trigger: 'change', validator: defaults}],
-        avatar: [{ required: true, trigger: 'change', validator: defaults }],}
-    }
+        title: [{ required: true, trigger: "change", validator: defaults }],
+        description: [
+          { required: true, trigger: "change", validator: defaults },
+        ],
+        avatar: [{ required: true, trigger: "change", validator: defaults }],
+      },
+    };
   },
   methods: {
     blogCreate,
     handlePictureCardPreview() {},
-    handleRemove () {},
-    submitForm: function() {
-      this.$refs.ruleForm.validate(valid => {
-          if (valid) {
-            this.fullscreenLoading = true
-            this.blogCreate(this.blogForm)
-              .then(res => {
-                this.$notify({
-                  title: 'Успех',
-                  message: "Добавить нового администратора",
-                  type: 'success',
-                  // type: 'error',
-                  duration: 2000
-                })
-                console.log(res)
-                this.getAdminAllList()
-              })
-              .catch(err => {
-                console.log(err)
-                this.$notify({
-                  title: 'Ошибка',
-                  message: "Ошибка добавления нового администратора",
-                  // type: 'success',
-                  type: 'error',
-                  duration: 2000
-                })
-              })
-              .finally(() => {
-                this.fullscreenLoading = false
-                this.dialogVisible = false
-              })
-          }
-          else
-          {
-            console.log('error submit!!')
-            return false
-          }
+    handleRemove() {},
+    submitForm: function () {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.fullscreenLoading = true;
+          this.blogCreate(this.blogForm)
+            .then((res) => {
+              this.$notify({
+                title: "Успех",
+                message: "Добавить нового администратора",
+                type: "success",
+                // type: 'error',
+                duration: 2000,
+              });
+              console.log(res);
+              this.getAdminAllList();
+            })
+            .catch((err) => {
+              console.log(err);
+              this.$notify({
+                title: "Ошибка",
+                message: "Ошибка добавления нового администратора",
+                // type: 'success',
+                type: "error",
+                duration: 2000,
+              });
+            })
+            .finally(() => {
+              this.fullscreenLoading = false;
+              this.dialogVisible = false;
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
         }
-      )
-
+      });
     },
     resetForm() {
-      this.$refs.ruleForm.resetFields()
-    },  }
-}
+      this.$refs.ruleForm.resetFields();
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
 .picture-card div {
   width: 610px !important;
 }
-.blog__box {
-//display: flex;
-//flex-direction: column;
-//justify-content: center;
-//align-items: center;
-}
-.upload__wrapper {
-}
+
 .input__style {
   width: 100%;
 }
@@ -161,7 +154,7 @@ export default {
 .button_box {
   margin-top: 30px;
   display: flex;
-  justify-content: flex-end
+  justify-content: flex-end;
 }
 
 @media (max-width: 700px) {

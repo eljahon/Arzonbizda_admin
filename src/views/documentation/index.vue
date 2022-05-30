@@ -1,3 +1,106 @@
+<script>
+// import DropdownMenu from '@/components/Share/DropdownMenu'
+import Pagination from "@/components/Pagination";
+import { shopsList, newProductsAddRequest } from "@/api/shops";
+import dayjs from "dayjs";
+export default {
+  name: "Documentation",
+  components: { Pagination },
+  data() {
+    return {
+      dialogVisible: false,
+      tableKey: 0,
+      shopName: "будут добавлены новые товары из магазина",
+      list: [],
+      total: 2,
+      listLoading: true,
+      listQuery: {
+        page: 1,
+        limit: 20,
+        importance: undefined,
+        title: undefined,
+        type: undefined,
+        sort: "+id",
+      },
+      importanceOptions: [1, 2, 3],
+      sortOptions: [
+        { label: "ID Ascending", key: "+id" },
+        { label: "ID Descending", key: "-id" },
+      ],
+      rules: {
+        type: [
+          { required: true, message: "type is required", trigger: "change" },
+        ],
+        timestamp: [
+          {
+            type: "date",
+            required: true,
+            message: "timestamp is required",
+            trigger: "change",
+          },
+        ],
+        title: [
+          { required: true, message: "title is required", trigger: "blur" },
+        ],
+      },
+      baseUrl: {
+        Asaxiy: "/admin/asaxiy-fill",
+      },
+    };
+  },
+
+  mounted: function () {
+    this.listLoading = true;
+    shopsList()
+      .then((res) => {
+        this.list = res.data.shops.map((el) => {
+          return {
+            ...el,
+            baseUrl: "/admin/mediapark-fill",
+          };
+        });
+      })
+      .finally(() => {
+        this.listLoading = false;
+      });
+  },
+  methods: {
+    handleAddRole() {
+      this.dialogVisible = true;
+    },
+    dayjs,
+    handleData(item) {
+      const url = item.baseUrl;
+      newProductsAddRequest(url)
+        .then(() => {
+          this.$notify({
+            title: "Успех",
+            message: `${this.shopName + " " + item.name}`,
+            type: "success",
+            duration: 2000,
+          });
+        })
+        .catch((error) => {
+          this.$notify({
+            title: `${this.shopName + item.name}`,
+            message: `${this.shopName + item.name + error.message}`,
+            type: "success",
+            duration: 2000,
+          });
+        });
+      // console.log(item, index)
+    },
+    sortChange(il, ins) {
+      console.log(il, ins);
+    },
+    getList() {},
+    getSortClass: function (key) {
+      const sort = this.listQuery.sort;
+      return sort === `+${key}` ? "ascending" : "descending";
+    },
+  },
+};
+</script>
 <template>
   <div class="app-container">
     <div
@@ -5,22 +108,22 @@
       style="margin-bottom: 15px"
     >
       <!--        <span>Card name</span>-->
-      <span style="float:right;">
+      <span style="float: right">
         <el-button
           round
           icon="el-icon-plus"
           size="medium"
           type="primary"
+          @click="handleAddRole"
         >Новый магазин добавить</el-button>
       </span>
     </div>
     <el-card>
       <el-table
         :key="tableKey"
-        v-loading="listLoading"
         :data="list"
         highlight-current-row
-        style="width: 100%;"
+        style="width: 100%"
         @sort-change="sortChange"
       >
         <el-table-column
@@ -39,8 +142,8 @@
           label="Продукты"
           align="left"
         >
-          <template slot-scope="{row}">
-            <span>{{ dayjs(row.createdAt).format('DD.MM.YYYY') }}</span>
+          <template slot-scope="{ row }">
+            <span>{{ dayjs(row.createdAt).format("DD.MM.YYYY") }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -48,8 +151,8 @@
           label="Дата обноление"
           align="left"
         >
-          <template slot-scope="{row}">
-            <span>{{ dayjs(row.updatedAt).format('DD.MM.YYYY') }}</span>
+          <template slot-scope="{ row }">
+            <span>{{ dayjs(row.updatedAt).format("DD.MM.YYYY") }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -57,7 +160,7 @@
           align="left"
           class-name="small-padding fixed-width"
         >
-          <template slot-scope="{row}">
+          <template slot-scope="{ row }">
             <el-button
               icon="el-icon-refresh"
               size="mini"
@@ -71,7 +174,7 @@
       </el-table>
       <div>
         <pagination
-          v-show="total>0"
+          v-show="total > 0"
           style="float: right"
           :total="total"
           :page.sync="listQuery.page"
@@ -80,150 +183,13 @@
         />
       </div>
     </el-card>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      title="Добавить новый блог"
+    >
+      <NewBlogAdd />
+    </el-dialog>
   </div>
-</template>
-
-<script>
-// import DropdownMenu from '@/components/Share/DropdownMenu'
-import Pagination from '@/components/Pagination'
-import { shopsList, newProductsAddRequest } from '@/api/shops'
-import dayjs from 'dayjs'
-export default {
-  name: 'Documentation',
-  components: { Pagination },
-  data() {
-    return {
-      tableKey: 0,
-      shopName: 'будут добавлены новые товары из магазина',
-      list: [],
-      total: 2,
-      listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 20,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
-        sort: '+id'
-      },
-      importanceOptions: [1, 2, 3],
-      sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
-      rules: {
-        type: [{ required: true, message: 'type is required', trigger: 'change' }],
-        timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
-        title: [{ required: true, message: 'title is required', trigger: 'blur' }]
-      },
-      baseUrl: {
-        Asaxiy: '/admin/asaxiy-fill'
-      }
-    }
-  },
-  mounted: function() {
-    this.listLoading = true
-    shopsList().then(res => {
-      this.list = res.data.shops.map(el => {
-        return {
-          ...el,
-          baseUrl: '/admin/mediapark-fill'
-
-        }
-      })
-    }).finally(() => {
-      this.listLoading = false
-    })
-  },
-  methods: {
-    dayjs,
-    handleData(item) {
-      const url = item.baseUrl
-      newProductsAddRequest(url)
-        .then(() => {
-          this.$notify({
-            title: 'Успех',
-            message: `${this.shopName + ' ' + item.name}`,
-            type: 'success',
-            duration: 2000
-          })
-        }).catch(error => {
-          this.$notify({
-            title: `${this.shopName + item.name}`,
-            message: `${this.shopName + item.name+error.message}`,
-            type: 'success',
-            duration: 2000
-          })
-        })
-      // console.log(item, index)
-    },
-    sortChange(il, ins) {
-      console.log(il, ins)
-    },
-    getList() {
-    },
-    getSortClass: function(key) {
-      const sort = this.listQuery.sort
-      return sort === `+${key}` ? 'ascending' : 'descending'
-    }
-  }
-}
-</script>
-<template>
-  <div class="app-container">
-    <div class="clearfix" style="margin-bottom: 15px">
-      <!--        <span>Card name</span>-->
-      <span style="float:right;">
-        <el-button round icon="el-icon-plus" size="medium" type="primary">Новый магазин добавить</el-button>
-      </span>
-    </div>
-    <el-card>
-      <el-table
-        :key="tableKey"
-        :data="list"
-        highlight-current-row
-        style="width: 100%;"
-        @sort-change="sortChange"
-      >
-        <el-table-column
-          label="Магазин"
-          prop="name"
-          sortable="custom"
-          align="left"
-          :class-name="getSortClass('name')"
-        >
-          <!--          <template slot-scope="{row}">-->
-          <!--            <span>{{ row.name }}</span>-->
-          <!--          </template>-->
-        </el-table-column>
-        <el-table-column sortable="custom" label="Продукты" align="left">
-          <template slot-scope="{row}">
-            <span>{{ dayjs(row.createdAt).format('DD.MM.YYYY') }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column sortable="custom" label="Дата обноление" align="left">
-          <template slot-scope="{row}">
-            <span>{{ dayjs(row.updatedAt).format('DD.MM.YYYY') }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="Действие" align="left" class-name="small-padding fixed-width">
-          <template slot-scope="{row}">
-            <el-button icon="el-icon-refresh" size="mini" type="danger" @click="handleData(row)">
-              Обновить
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div>
-        <pagination
-          v-show="total>0"
-          style="float: right"
-          :total="total"
-          :page.sync="listQuery.page"
-          :limit.sync="listQuery.limit"
-          @pagination="getList"
-        />
-      </div>
-    </el-card>
-  </div>
-
 </template>
 
 <style lang="scss" scoped>
