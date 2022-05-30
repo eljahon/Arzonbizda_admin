@@ -1,7 +1,8 @@
 import request from '@/utils/request'
 const baseUrl = {
   url: '/admin/admin-create',
-  admin: '/admin'
+  admin: '/admin',
+  blog: '/admin/blog/post'
 }
 export function getRoutes() {
   // request({
@@ -16,17 +17,16 @@ export function adminCreate(data) {
     method: 'post',
     data
   })
-}export function blogCreate(data) {
+}
+export function blogCreate(data) {
   const sendData  = new FormData();
-  data.forEach(el => {
-    sendData.append(el)
-    }
-  )
-
+  sendData.append('image', data.avatar)
+  sendData.append('title', data.title)
+  sendData.append('body', data.description)
   return request({
-    url: baseUrl.url,
+    url: baseUrl.blog,
     method: 'post',
-    sendData
+    data: sendData
   })
 }
 
@@ -36,11 +36,17 @@ export function adminDataUpadate(data, id) {
     method: 'put',
     data
   })
-}export function adminPasswordUpadate(data, id) {
+}
+export function adminSilginBlog(id) {
   return request({
-    url: baseUrl.admin+'/'+id,
-    method: 'put',
-    data
+    url: baseUrl.blog+'/'+id,
+    method: 'get',
+  })
+}
+export function adminBlogDelete(id) {
+  return request({
+    url: baseUrl.blog+'/'+id,
+    method: 'delete',
   })
 }
 //

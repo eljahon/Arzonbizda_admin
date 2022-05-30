@@ -54,7 +54,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/documentation/index'),
+        component: () => import('@/views/shops/index'),
         name: 'shops',
         meta: { title: 'Интернет-магазины', icon: 'magazin', affix: true }
       }
@@ -90,9 +90,9 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   {
-    path: '/permission',
+    path: '/admins',
     component: Layout,
-    name: 'Permission',
+    name: 'Admins',
     meta: {
       icon: 'people',
       roles: ['superadmin'] // you can set roles in root nav
@@ -100,8 +100,8 @@ export const asyncRoutes = [
     children: [
       {
         path: 'role',
-        component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
+        component: () => import('@/views/admins/role'),
+        name: 'Roleadmin',
         meta: {
           title: 'Админы',
           roles: ['superadmin']

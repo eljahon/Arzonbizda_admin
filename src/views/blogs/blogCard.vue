@@ -1,39 +1,49 @@
 <script>
-export default {};
+import dayjs from "dayjs";
+export default {
+  props: {
+    item: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  methods: {
+    dayjs
+  }
+};
 </script>
 <template>
-  <div>
+  <div class="cars_wrapper">
     <div class="grid__card">
       <div class="grid__items">
         <div class="card__image__box">
           <img
             class="card__image"
-            src="https://noonpost.netlify.app/html/template/assets/img/blog/7.jpg"
+            :src="item.image"
             alt="imggg"
           >
         </div>
         <h1 class="card__title">
-          How to make cokies with Chocolate for your kids?
+          {{ item.title }}
         </h1>
         <p class="card__desc">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quam
-          atque ipsa laborum sunt distinctio...
+          {{ item.description }}
         </p>
         <div class="card__bottom__content">
           <div class="avatar__box">
             <img
               class="avatar__box__img"
-              src="https://noonpost.netlify.app/html/template/assets/img/author/1.jpg"
+              :src="item.image"
               alt="avatar"
             >
           </div>
           <div class="nameAndDate">
             <h4 class="card__fullname">
-              David Smith
+              {{ item.fist_name }} {{ item.last_name }}
             </h4>
             <div class="dots" />
             <h4 class="card__data">
-              January 15, 2021
+              {{ dayjs(item.date).format("MM.DD.YYYY") }}
             </h4>
           </div>
         </div>
@@ -96,13 +106,14 @@ export default {};
   object-fit: cover;
 }
 .grid__card {
-  margin-top: 50px;
+  //margin-top: 30px
 }
 .grid__items {
   box-shadow: 0px 5px 20px 0px rgb(69 67 96 / 10%);
   background-color: #fff;
   border-radius: 20px;
   padding: 30px;
+  margin: auto;
   width: 400px;
 }
 .card__image__box {

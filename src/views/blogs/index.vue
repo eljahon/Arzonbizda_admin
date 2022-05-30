@@ -13,7 +13,6 @@
     <el-table
       v-loading="tableLoading"
       :data="blogList"
-      border
       style="width: 100%; margin-top: 30px"
       @row-click="clickItemRow"
     >
@@ -30,7 +29,7 @@
         prop="email"
       />
       <el-table-column
-        label="Эл. адрес"
+        label="Свидание"
         prop="date"
       >
         <template slot-scope="scope">
@@ -38,9 +37,14 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="Роль"
-        prop="role"
-      />
+        label="Статус"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.status"><el-tag>Активный</el-tag></span>
+          <span v-else><el-tag type="danger">Не активный</el-tag></span>
+        </template>
+      </el-table-column>
       <el-table-column
         label="Действия"
         align="center"
@@ -52,6 +56,7 @@
             type="primary"
             @click.native.stop="editBlog(scope.row)"
           />
+
           <el-button
             size="small"
             icon="el-icon-delete"
@@ -65,14 +70,23 @@
       :visible.sync="dialogVisible"
       title="Добавить новый блог"
     >
-      <NewBlogAdd />
+      <NewBlogAdd
+        @getBlogAllList="getAdminAllBlogList"
+        @handleAddRole="handleAddRole"
+      />
     </el-dialog>
-    <blog-card />
+    <el-dialog
+      :visible.sync="itemDataSee"
+      style="border-radius: 20px"
+    >
+      <blog-card :item="itemData" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getAdminBlogAll } from "@/api/userInfo";
+import { getAdminBlogAll } from '@/api/userInfo'
+import {adminBlogDelete, adminSilginBlog} from '@/api/admin'
 import NewBlogAdd from "@/views/blogs/newBlogAdd";
 import { getUserName } from "@/utils/auth";
 import dayjs from "dayjs";
@@ -89,6 +103,8 @@ export default {
       dialogVisible: false,
       tableLoading: false,
       dialogType: false,
+      itemDataSee: false,
+      itemData: {},
       params: {
         page: 1,
         limit: 10,
@@ -103,24 +119,62 @@ export default {
       return this.routes;
     },
   },
+  watch: {
+    dialogVisible (oldvalue, newvalue) {
+      console.log(oldvalue, newvalue)
+      if(newvalue) {
+        this.$router.push({name: this.$route.name})
+      } else {
+        if(oldvalue&&this.$route.query.item) {
+          this.adminSilginBlog(this.$route.query.item)
+            .then(() => {
+            })
+        }
+      }
+    }
+  },
   created() {
     this.getAdminAllBlogList();
     // console.log(JSON.parse(getUserName()).role)
   },
+  mounted() {
+    if(this.$route.query.item) {
+      this.dialogVisible = true
+    }
+  },
   methods: {
     clickItemRow(item) {
-      console.log(item);
+      this.itemData = item
+      this.itemDataSee = !this.itemDataSee
+      // console.log(item);
     },
-    editBlog(id) {
-      console.log(id);
+    adminSilginBlog,
+    adminBlogDelete,
+    editBlog (id) {
+      this.dialogVisible = !this.dialogVisible
+      this.$router.push({name: this.$route.name, query: {item: id.id}})
     },
     deleteBlog(id) {
-      console.log(id);
+      this.tableLoading = !this.tableLoading
+      this.adminBlogDelete(id)
+        .then(res => {
+          console.log(res)
+          this.getAdminAllBlogList()
+        }).finally(() => {
+        this.tableLoading = !this.tableLoading
+      })
     },
+
     dayjs,
     getAdminBlogAll,
-    handleAddRole() {
-      this.dialogVisible = true;
+    handleAddRole()
+    {
+
+      this.dialogVisible = !this.dialogVisible
+
+    },
+    ClearIcon (event) {
+      console.log(event)
     },
     getAdminAllBlogList() {
       (this.tableLoading = true),
@@ -140,7 +194,6 @@ export default {
                 adminId: el["admin_id"],
               };
             });
-            console.log(res);
           })
           .finally(() => {
             this.tableLoading = false;
@@ -151,6 +204,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.popconfirm_wrapper {
+  .el-popconfirm__action  {
+  margin-top: 40px !important;
+}
+}
 .app-container {
   .roles-table {
     margin-top: 30px;

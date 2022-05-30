@@ -12,6 +12,7 @@ const getters = {
   permission_routes: state => state.permission.routes,
   errorLogs: state => state.errorLog.logs,
   userName: state => state.user.username,
-  userInforChange: state => state.user.userInforChange
+  userInforChange: state => state.user.userInforChange,
+  isModal: state => state.user.modalOpen
 }
 export default getters

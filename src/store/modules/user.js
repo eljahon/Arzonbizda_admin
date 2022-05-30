@@ -8,11 +8,15 @@ const state = {
   introduction: '',
   roles: [],
   username: {},
+  modalOpen: false
 }
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
+  },
+  MODAL_OPEN: (state, payload) => {
+    state.modalOpen = payload
   },
   SET_USER_NAME: (state, payload) => {
     state.username = payload;
@@ -36,6 +40,9 @@ const actions = {
   // user login
   setUserNewData ({commit}, payload) {
     commit('SET_USER_NAME', payload)
+  },
+  handelModal ({commit}, payload) {
+    commit('MODAL_OPEN', payload)
   },
   login({ commit }, userInfo) {
     const { email, password } = userInfo

@@ -1,12 +1,7 @@
-
 <template>
   <div class="app-container">
     <div>
       <el-row :gutter="20">
-        <!--                <el-col :span="6" :xs="24">-->
-        <!--                  <user-card :user="user" />-->
-        <!--                </el-col>-->
-
         <el-col
           :span="24"
           :xs="24"
@@ -33,27 +28,24 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-import ProfileSetting from './components/profilSetting'
-import Account from './components/Account'
+import { mapGetters } from "vuex";
+import ProfileSetting from "./components/profilSetting";
+import Account from "./components/Account";
 export default {
-  name: 'Profile',
+  name: "Profile",
   components: { ProfileSetting, Account },
   data() {
     return {
-      activeTab: 'Информация об аккаунте',
-      userId: ''
-    }
+      activeTab: "Информация об аккаунте",
+      userId: "",
+    };
   },
   computed: {
-    ...mapGetters(['name', 'avatar', 'roles'])
+    ...mapGetters(["name", "avatar", "roles"]),
   },
   created() {
     // this.getUser()
   },
-  methods: {
-
-  }
-}
+  methods: {},
+};
 </script>
-

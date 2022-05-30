@@ -16,9 +16,12 @@ export function newProductsAddRequest(url) {
 //   })
 // }
 
-export function shopsList() {
+export function shopsList(params) {
   return request({
     url: '/admin/shops',
-    method: 'get'
+    method: 'get',
+    params: {
+...params
+    }
   })
 }

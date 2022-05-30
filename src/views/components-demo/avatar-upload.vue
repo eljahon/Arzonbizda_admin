@@ -18,7 +18,6 @@ export default {
   },
   methods: {
     cropSuccess(resData) {
-      console.log(resData)
       this.imagecropperShow = false
       this.imagecropperKey = this.imagecropperKey + 1
       this.image = process.env.VUE_APP_BASE_API + resData.src
@@ -55,7 +54,7 @@ export default {
       :key="imagecropperKey"
       :width="600"
       :height="600"
-      url="https://arzonbizda.herokuapp.com/admin/admin-avatar"
+      url="http://128.199.9.191/admin/admin-avatar"
       lang-type="en"
       :headers="header"
       @close="close"

@@ -6,10 +6,23 @@
       :model="blogForm"
       autocomplete="on"
     >
+      <el-form-item
+        label="изображение"
+        prop="avatar"
+      >
+        <el-upload
+          style="display: flex; justify-content: center"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          list-type="picture-card"
+          :on-change="handlePictureCardPreview"
+        >
+          <i class="el-icon-upload" />
+        </el-upload>
+      </el-form-item>
       <div class="upload__wrapper">
         <div>
           <el-form-item
-            label="Заголовок"
+            label="ссылк"
             prop="title"
           >
             <el-input
@@ -21,31 +34,16 @@
         </div>
         <div>
           <el-form-item
-            label="Описание"
+            label="Название магазина"
             prop="description"
           >
             <el-input
               v-model="blogForm.description"
               class="input__style textarea__style"
-              type="textarea"
-              :rows="1"
               placeholder="Please input"
             />
           </el-form-item>
         </div>
-        <el-form-item
-          label="Изображение"
-          prop="avatar"
-        >
-          <el-upload
-            style="display: flex; justify-content: center"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            list-type="picture-card"
-            :on-change="handlePictureCardPreview"
-          >
-            <i class="el-icon-upload" />
-          </el-upload>
-        </el-form-item>
         <div class="button_box">
           <el-button
             type="danger"
@@ -53,7 +51,7 @@
             icon="el-icon-close"
             @click="resetForm"
           >
-            Cansel
+            Кансел
           </el-button>
           <el-button
             v-loading.fullscreen.lock="fullscreenLoading"
@@ -62,7 +60,7 @@
             class="success__btn"
             @click="submitForm"
           >
-            Confirm
+            Подтверждать
           </el-button>
         </div>
       </div>
@@ -71,28 +69,25 @@
 </template>
 
 <script>
-import { blogCreate } from "@/api/admin";
-import { Default } from "@/validators/validators";
+import { blogCreate } from '@/api/admin'
+import { Default } from '@/validators/validators'
 
 export default {
   name: "NewBlogAdd",
-  data() {
-    const defaults = Default;
+  data () {
+    const defaults = Default
     return {
       blogForm: {
-        title: "",
-        description: "",
-        avatar: "",
+        title: '',
+        description: '',
+        avatar: ''
       },
       fullscreenLoading: false,
       roles: {
-        title: [{ required: true, trigger: "change", validator: defaults }],
-        description: [
-          { required: true, trigger: "change", validator: defaults },
-        ],
-        avatar: [{ required: true, trigger: "change", validator: defaults }],
-      },
-    };
+        title: [{ required: true, trigger: 'change', validator: defaults }],
+        description: [{ required: true, trigger: 'change', validator: defaults}],
+        avatar: [{ required: true, trigger: 'change', validator: defaults }],}
+    }
   },
   methods: {
     blogCreate,
@@ -102,42 +97,48 @@ export default {
     },
     submitForm: function() {
       this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          this.fullscreenLoading = true
-          this.blogCreate(this.blogForm)
-            .then(() => {
-              this.$notify({
-                title: 'Успех',
-                message: "Добавить нового администратора",
-                type: 'success',
-                // type: 'error',
-                duration: 2000
-              })
-              this.$emit('handleAddRole')
-              this.$emit('getBlogAllList')
-            })
-            .catch(err => {
-              console.log(err)
-              this.$notify({
-                title: 'Ошибка',
-                message: "Ошибка добавления нового администратора",
-                // type: 'success',
-                type: 'error',
-                duration: 2000
-              })
-            })
-            .finally(() => {
-              this.fullscreenLoading = false;
-              this.dialogVisible = false;
-              this.$emit('modalClose', false)
-            })
+          if (valid) {
+            // this.fullscreenLoading = true
+            // this.blogCreate(this.blogForm)
+            //   .then(res => {
+            //     this.$notify({
+            //       title: 'Успех',
+            //       message: "Добавить нового администратора",
+            //       type: 'success',
+            //       // type: 'error',
+            //       duration: 2000
+            //     })
+            //     this.$emit('openModal')
+            //     this.$emit('getBlogAllList')
+            //   })
+            //   .catch(err => {
+            //     console.log(err)
+            //     this.$notify({
+            //       title: 'Ошибка',
+            //       message: "Ошибка добавления нового администратора",
+            //       // type: 'success',
+            //       type: 'error',
+            //       duration: 2000
+            //     })
+            //   })
+            //   .finally(() => {
+            //     this.fullscreenLoading = false;
+            //     this.dialogVisible = false;
+            //     this.$emit('openModal')
+            //   })
+          }
+          else
+          {
+            console.log('error submit!!')
+            return false
+          }
         }
-    });
-},
-    resetForm () {
+      )
+
+    },
+    resetForm() {
       this.$refs.ruleForm.resetFields()
-    }
-  }
+    },  }
 }
 </script>
 
@@ -145,7 +146,14 @@ export default {
 .picture-card div {
   width: 610px !important;
 }
-
+.blog__box {
+//display: flex;
+//flex-direction: column;
+//justify-content: center;
+//align-items: center;
+}
+.upload__wrapper {
+}
 .input__style {
   width: 100%;
 }
@@ -160,7 +168,7 @@ export default {
 .button_box {
   margin-top: 30px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-end
 }
 
 @media (max-width: 700px) {
