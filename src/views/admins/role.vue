@@ -151,23 +151,18 @@ export default {
             this.fullscreenLoading = true
             this.adminCreate(this.ruleForm)
               .then(() => {
-                this.$notify({
-                  title: 'Успех',
+                this.$message({
                   message: "Добавить нового администратора",
                   type: 'success',
                   // type: 'error',
-                  duration: 2000
                 })
                 this.getAdminAllList()
               })
               .catch(err => {
                 console.log(err)
-                this.$notify({
-                  title: 'Ошибка',
+                this.$message({
                   message: "Ошибка добавления нового администратора",
-                  // type: 'success',
-                  type: 'error',
-                  duration: 2000
+                  type: 'error'
                 })
               })
               .finally(() => {

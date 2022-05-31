@@ -34,7 +34,7 @@
           @click="showdwonFunction"
         >
           <img
-            :src="avatar"
+            :src="userInfor ? baseUrl+userInfoData.avatar :baseUrl+userData.avatar"
             class="user-avatar"
             alt="this is images"
           >
@@ -72,7 +72,8 @@ export default {
     return {
       avatar,
       showdwon: false,
-      userInfor: false
+      userInfor: false,
+      baseUrl: process.env.VUE_APP_BASE_API
     }
   },
   computed: {
@@ -99,6 +100,10 @@ export default {
   mounted() {
   },
   methods: {
+    imageBool () {
+      let image = this.userInfor ?this.baseUrl+"/"+this.userInfoData.last_name :this.baseUrl+"/"+this.userData.avatar;
+      return image
+    },
     showdwonFunction() {
       this.showdwon = !this.showdwon
     },

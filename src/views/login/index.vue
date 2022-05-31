@@ -8,14 +8,14 @@ export default {
       if (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
         callback();
       } else {
-        callback(new Error("email not error"));
+        callback(new Error("электронная почта"));
       }
     };
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
-      } else {
+      if (value.length) {
         callback();
+      } else {
+        callback(new Error("Пароль не может быть меньше"));
       }
     };
     return {
@@ -29,9 +29,9 @@ export default {
         password: "",
       },
       loginRules: {
-        email: [{ required: true, trigger: "blur", validator: validateEmail }],
+        email: [{ required: true, trigger: "change", validator: validateEmail }],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
+          { required: true, trigger: "change", validator: validatePassword },
         ],
       },
       passwordType: "password",

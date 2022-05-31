@@ -134,24 +134,19 @@ export default {
         } else  {
           this.blogCreate(this.blogForm)
             .then(() => {
-              this.$notify({
-                title: 'Успех',
+              this.$message({
                 message: "Добавить нового администратора",
-                type: 'success',
-                // type: 'error',
-                duration: 2000
+                type: 'success'
               })
               this.$emit('handleAddRole')
               this.$emit('getBlogAllList')
             })
             .catch(err => {
               console.log(err)
-              this.$notify({
-                title: 'Ошибка',
+              this.$message({
                 message: "Ошибка добавления нового администратора",
                 // type: 'success',
-                type: 'error',
-                duration: 2000
+                type: 'error'
               })
             })
             .finally(() => {

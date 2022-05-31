@@ -53,6 +53,26 @@ export function adminDataUpadate(data, id) {
     data: sendData
   })
 }
+// export function adminDataUpadate(data, id) {
+//   const sendData  = new FormData();
+//   sendData.append('image', data.avatar)
+//   sendData.append('title', data.title)
+//   sendData.append('body', data.description)
+//   return request({
+//     url: baseUrl.blog+'/'+id,
+//     method: 'put',
+//     data: sendData
+//   })
+// }
+export function avatarUpload(data) {
+  const sendData  = new FormData();
+  sendData.append('avatar',data)
+  return request({
+    url: '/admin/admin-avatar',
+    method: 'patch',
+    data: sendData
+  })
+}
 export function adminSilginBlog(id) {
   return request({
     url: baseUrl.blog+'/'+id,

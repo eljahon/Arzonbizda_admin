@@ -18,6 +18,7 @@
     <el-card>
       <el-table
         :key="tableKey"
+        v-loading="tableLoading"
         :data="list"
         highlight-current-row
         style="width: 100%"
@@ -100,6 +101,7 @@ export default {
     return {
       tableKey: 0,
       isModal: false,
+      tableLoading: false,
       shopName: 'будут добавлены новые товары из магазина',
       dialogVisible: false,
       list: [],
@@ -138,10 +140,10 @@ this.handleGetShopList()
       this.isModal = !this.isModal
     },
     dayjs,
+    shopsList,
     handleGetShopList() {
-this.listLoading = true
-    shopsList(this.listQuery).then(res => {
-      console.log(res)
+this.tableLoading = true
+    this.shopsList(this.listQuery).then(res => {
       this.list = res.data.shops.map(el => {
         return {
           ...el,
@@ -150,7 +152,7 @@ this.listLoading = true
         }
       })
     }).finally(() => {
-      this.listLoading = false
+      this.tableLoading = false
     })
     },
     handleData(item) {

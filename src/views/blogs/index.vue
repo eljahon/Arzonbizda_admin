@@ -13,7 +13,6 @@
     <el-table
       v-loading="tableLoading"
       :data="blogList"
-      height="550"
       style="width: 100%; margin-top: 30px"
       class="cursor"
       @row-click="clickItemRow"
@@ -69,6 +68,14 @@
         </template>
       </el-table-column>
     </el-table>
+    <pagination
+      v-show="total > 0"
+      style="float: right"
+      :total="total"
+      :page.sync="params.page"
+      :limit.sync="params.limit"
+      @pagination="getList"
+    />
     <el-dialog
       :visible.sync="dialogVisible"
       title="Добавить новый блог"
@@ -92,6 +99,7 @@
 import { getAdminBlogAll } from '@/api/userInfo'
 import {adminBlogDelete, adminSilginBlog} from '@/api/admin'
 import NewBlogAdd from "@/views/blogs/newBlogAdd";
+import Pagination from '@/components/Pagination'
 import { getUserName } from "@/utils/auth";
 import dayjs from "dayjs";
 import BlogCard from "./blogCard.vue";
@@ -100,10 +108,12 @@ export default {
   components: {
     NewBlogAdd,
     BlogCard,
+    Pagination
   },
   data() {
     return {
       blogList: [],
+      total: 1,
       dialogVisible: false,
       tableLoading: false,
       dialogType: false,
@@ -154,6 +164,10 @@ export default {
     }
   },
   methods: {
+    getList (event) {
+      this.params = {...event};
+      this.getAdminAllBlogList();
+    },
     clickItemRow(item) {
       this.itemData = item
       this.itemDataSee = !this.itemDataSee

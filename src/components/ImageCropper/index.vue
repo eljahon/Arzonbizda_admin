@@ -898,7 +898,7 @@ export default {
       this.loading = 1
       this.setStep(3)
       request({
-        url,
+        url: url,
         method: 'patch',
         data: fmData
       })

@@ -103,26 +103,17 @@ export default {
     setAdminDataPassword (data, id) {
       this.fullscreenLoading = true
       this.adminPasswordUpadate(data, id)
-        .then(res => {
-          console.log(res);
-          this.$notify({
-            title: 'Успех',
+        .then(() => {
+          this.$message({
             message: "Ваша личная информация обновлена",
             type: 'success',
-            // type: 'error',
-            duration: 2000,
-            offset: 100
           })
-        }).catch(err => {
-        this.$notify({
-          title: 'Ошибка',
+        }).catch(() => {
+        this.$message({
           message: "Ваша личная информация будет обновлена",
           // type: 'success',
-          type: 'Warning',
-          duration: 2000,
-          offset: 100
+          type: 'Warning'
         })
-        console.log(err)
       }).finally(() => {
         this.fullscreenLoading = false
       })

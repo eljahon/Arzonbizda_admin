@@ -86,7 +86,7 @@
 </template>
 <script>
 import Upload from '../../components-demo/avatar-upload'
-import { userPersolnData } from '@/api/userInfo'
+import { userPersolnData, userPersolnUpdate} from '@/api/userInfo'
 import { adminDataUpadate } from '@/api/admin'
 import { Default, Email } from '@/validators/validators'
 import {getUserName, setUserName} from '@/utils/auth'
@@ -117,32 +117,25 @@ export default {
   methods: {
     Default, Email,
     adminDataUpadate,
+    userPersolnUpdate,
     submitForm() {
       this.$refs.profilForm.validate((valid) => {
         if (valid) {
           // alert('submit!');
           this.fullscreenLoading= true
-          this.adminDataUpadate(this.ruleForm, JSON.parse(getUserName()).id)
+          this.userPersolnUpdate(this.ruleForm, JSON.parse(getUserName()).id)
             .then(() => {
-              this.$notify({
-                title: 'Успех',
+              this.$message({
                 message: "Ваша личная информация обновлена",
                 type: 'success',
-                // type: 'error',
-                duration: 2000,
-                offset: 100
               })
               this.getUserInfo()
               this.resetForm()
             })
             .catch(() => {
-              this.$notify({
-                title: 'Ошибка',
+              this.$message({
                 message: "Ваша личная информация будет обновлена",
-                // type: 'success',
                 type: 'Warning',
-                duration: 2000,
-                offset: 100
               })
             })
             .finally(() => {

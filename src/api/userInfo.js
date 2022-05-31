@@ -5,6 +5,14 @@ export function userPersolnData() {
     method: 'get'
   })
 }
+export function userPersolnUpdate(data, id) {
+  return request({
+    url: '/admin/'+ id,
+    method: 'put',
+    data: data
+  })
+}
+
 
 export function getAdminAll() {
   return request({

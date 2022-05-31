@@ -1,10 +1,11 @@
 
 export  const  Password = function(rule, value, callback) {
     // var validatePass = (rule, value, callback) => {
-    if (value.length < 6) {
-      callback(new Error('The password can not be less than 6 digits'))
-    } else {
+    if (value.length) {
       callback()
+    } else {
+      callback(new Error('The password can not be less than'))
+
     }
     // };
   };
