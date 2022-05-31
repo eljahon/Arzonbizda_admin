@@ -37,14 +37,22 @@
           label="Изображение"
           prop="avatar"
         >
-          <el-upload
-            style="display: flex; justify-content: center"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            list-type="picture-card"
-            :on-change="handlePictureCardPreview"
-          >
-            <i class="el-icon-upload" />
-          </el-upload>
+          <div class="img_avatar_wrapper">
+            <img
+              v-if="$route.query.item"
+              width="180px"
+              :src="blogForm.avatar"
+              alt="avatar"
+            >
+            <el-upload
+              style="display: flex; justify-content: center"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              list-type="picture-card"
+              :on-change="handlePictureCardPreview"
+            >
+              <i class="el-icon-upload" />
+            </el-upload>
+          </div>
         </el-form-item>
         <div class="button_box">
           <el-button
@@ -71,8 +79,9 @@
 </template>
 
 <script>
-import { blogCreate } from "@/api/admin";
+import { blogCreate, adminDataUpadate } from "@/api/admin";
 import { Default } from "@/validators/validators";
+import {mapGetters} from "vuex";
 
 export default {
   name: "NewBlogAdd",
@@ -96,6 +105,7 @@ export default {
   },
   methods: {
     blogCreate,
+    adminDataUpadate,
     handlePictureCardPreview(event) {
       console.log(event.raw)
       this.blogForm.avatar = event.raw
@@ -104,6 +114,24 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.fullscreenLoading = true
+        if (this.$route.query.item) {
+          this.adminDataUpadate(this.blogForm, this.$route.query.item)
+            .then(() => {
+              this.$notify({
+                title: 'Успех',
+                message: "Добавить нового администратора",
+                type: 'success',
+                // type: 'error',
+                duration: 2000
+              })
+              this.$emit('handleAddRole')
+              this.$emit('getBlogAllList')
+            }).finally(() => {
+            this.fullscreenLoading = false;
+            this.dialogVisible = false;
+            this.$emit('modalClose', false)
+          })
+        } else  {
           this.blogCreate(this.blogForm)
             .then(() => {
               this.$notify({
@@ -132,16 +160,37 @@ export default {
               this.$emit('modalClose', false)
             })
         }
+        }
     });
 },
     resetForm () {
       this.$refs.ruleForm.resetFields()
     }
+  },
+  computed: {
+    ...mapGetters(['itemBlog']),
+    updateItemData: function () {
+      return this.itemBlog
+    }
+  },
+  watch: {
+    updateItemData: function (val) {
+      this.blogForm = val
+    },
   }
 }
 </script>
 
 <style scoped lang="scss">
+.img_avatar_wrapper{
+  max-width: 100%;
+  display: flex;
+  gap: 20px;
+  margin-top: 40px;
+  img {
+    border-radius: 10px;
+  }
+}
 .picture-card div {
   width: 610px !important;
 }

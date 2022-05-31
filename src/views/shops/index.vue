@@ -85,12 +85,6 @@
         </el-dialog>
       </div>
     </el-card>
-    <el-dialog
-      :visible.sync="dialogVisible"
-      title="Добавить новый блог"
-    >
-      <NewBlogAdd />
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -107,6 +101,7 @@ export default {
       tableKey: 0,
       isModal: false,
       shopName: 'будут добавлены новые товары из магазина',
+      dialogVisible: false,
       list: [],
       total: 1,
       listLoading: false,

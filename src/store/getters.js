@@ -13,6 +13,7 @@ const getters = {
   errorLogs: state => state.errorLog.logs,
   userName: state => state.user.username,
   userInforChange: state => state.user.userInforChange,
-  isModal: state => state.user.modalOpen
+  isModal: state => state.user.modalOpen,
+  itemBlog: state => state.user.itemBlog
 }
 export default getters

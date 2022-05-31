@@ -2,7 +2,8 @@ import request from '@/utils/request'
 const baseUrl = {
   url: '/admin/admin-create',
   admin: '/admin',
-  blog: '/admin/blog/post'
+  blog: '/admin/blog/post',
+  pass: '/admin/admin-pass/'
 }
 export function getRoutes() {
   // request({
@@ -29,12 +30,27 @@ export function blogCreate(data) {
     data: sendData
   })
 }
+export function blogUpdate(data, id) {
+  const sendData  = new FormData();
+  sendData.append('image', data.avatar)
+  sendData.append('title', data.title)
+  sendData.append('body', data.description)
+  return request({
+    url: baseUrl.blog+'/'+id,
+    method: 'put',
+    data: sendData
+  })
+}
 
 export function adminDataUpadate(data, id) {
+  const sendData  = new FormData();
+  sendData.append('image', data.avatar)
+  sendData.append('title', data.title)
+  sendData.append('body', data.description)
   return request({
-    url: baseUrl.admin+'/'+id,
+    url: baseUrl.blog+'/'+id,
     method: 'put',
-    data
+    data: sendData
   })
 }
 export function adminSilginBlog(id) {
@@ -50,13 +66,13 @@ export function adminBlogDelete(id) {
   })
 }
 //
-// export function updateRole(id, data) {
-//   return request({
-//     url: `/vue-element-admin/role/${id}`,
-//     method: 'put',
-//     data
-//   })
-// }
+export function adminPasswordUpadate(data, id) {
+  return request({
+    url: `${baseUrl.pass}${id}`,
+    method: 'put',
+    data
+  })
+}
 //
 // export function deleteRole(id) {
 //   return request({

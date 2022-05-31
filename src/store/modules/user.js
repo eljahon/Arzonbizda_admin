@@ -8,7 +8,8 @@ const state = {
   introduction: '',
   roles: [],
   username: {},
-  modalOpen: false
+  modalOpen: false,
+  itemBlog: {}
 }
 
 const mutations = {
@@ -33,11 +34,16 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_ITEM_BLOG (state, payload) {
+    state.itemBlog = payload
   }
 }
 
 const actions = {
-  // user login
+  itemDataChanges ({commit}, payload) {
+    commit('SET_ITEM_BLOG', payload)
+  },
   setUserNewData ({commit}, payload) {
     commit('SET_USER_NAME', payload)
   },

@@ -166,7 +166,6 @@ export default {
           setUserName(res.admin)
           this.$store.dispatch("user/setUserNewData", res.admin)
           // this.$router.push({name: this.$route.name, query:{ userId: res.admin.id }})
-          console.log(res)
         }).catch(err => {
         console.log(err)
       })

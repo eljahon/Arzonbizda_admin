@@ -13,7 +13,9 @@
     <el-table
       v-loading="tableLoading"
       :data="blogList"
+      height="550"
       style="width: 100%; margin-top: 30px"
+      class="cursor"
       @row-click="clickItemRow"
     >
       <el-table-column
@@ -41,6 +43,7 @@
         align="center"
       >
         <template slot-scope="scope">
+          <!--          <span>{{scope.row.status}}</span>-->
           <span v-if="scope.row.status"><el-tag>Активный</el-tag></span>
           <span v-else><el-tag type="danger">Не активный</el-tag></span>
         </template>
@@ -71,6 +74,7 @@
       title="Добавить новый блог"
     >
       <NewBlogAdd
+        ref="updateItetmdata"
         @getBlogAllList="getAdminAllBlogList"
         @handleAddRole="handleAddRole"
       />
@@ -127,7 +131,14 @@ export default {
       } else {
         if(oldvalue&&this.$route.query.item) {
           this.adminSilginBlog(this.$route.query.item)
-            .then(() => {
+            .then((res) => {
+              const item = res.post;
+              const  itemdata = {
+                title: item['title'],
+                description: item['body'],
+                avatar: process.env.VUE_APP_BASE_API+item['image']
+              }
+              this.$store.dispatch('user/itemDataChanges', itemdata)
             })
         }
       }
@@ -139,7 +150,7 @@ export default {
   },
   mounted() {
     if(this.$route.query.item) {
-      this.dialogVisible = true
+      this.dialogVisible = true;
     }
   },
   methods: {
@@ -153,6 +164,7 @@ export default {
     editBlog (id) {
       this.dialogVisible = !this.dialogVisible
       this.$router.push({name: this.$route.name, query: {item: id.id}})
+      // console.log(this.$refs.updateItetmdata)
     },
     deleteBlog(id) {
       this.tableLoading = !this.tableLoading
@@ -171,6 +183,7 @@ export default {
     {
 
       this.dialogVisible = !this.dialogVisible
+      this.$store.dispatch('user/itemDataChanges',{titel:'', descriptions: '', avatar: ''})
 
     },
     ClearIcon (event) {
@@ -192,6 +205,7 @@ export default {
                 image: process.env.VUE_APP_BASE_API + el["image"],
                 id: el["id"],
                 adminId: el["admin_id"],
+                status: el['status']
               };
             });
           })
@@ -216,5 +230,8 @@ export default {
   .permission-tree {
     margin-bottom: 30px;
   }
+}
+.cursor {
+  cursor: pointer;
 }
 </style>
