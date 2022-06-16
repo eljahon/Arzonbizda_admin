@@ -39,9 +39,9 @@ export function getAdminBlogAll(params) {
 //   })
 // }
 //
-// export function deleteRole(id) {
-//   return request({
-//     url: `/vue-element-admin/role/${id}`,
-//     method: 'delete'
-//   })
-// }
+export function singilBlog(id) {
+  return request({
+    url: `/admin/post/${id}`,
+    method: 'get'
+  })
+}

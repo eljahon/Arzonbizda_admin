@@ -77,16 +77,6 @@
       @pagination="getList"
     />
     <el-dialog
-      :visible.sync="dialogVisible"
-      title="Добавить новый блог"
-    >
-      <NewBlogAdd
-        ref="updateItetmdata"
-        @getBlogAllList="getAdminAllBlogList"
-        @handleAddRole="handleAddRole"
-      />
-    </el-dialog>
-    <el-dialog
       :visible.sync="itemDataSee"
       style="border-radius: 20px"
     >
@@ -97,16 +87,12 @@
 
 <script>
 import { getAdminBlogAll } from '@/api/userInfo'
-import {adminBlogDelete, adminSilginBlog} from '@/api/admin'
-import NewBlogAdd from "@/views/blogs/newBlogAdd";
+import {adminBlogDelete} from '@/api/admin'
 import Pagination from '@/components/Pagination'
-import { getUserName } from "@/utils/auth";
 import dayjs from "dayjs";
 import BlogCard from "./blogCard.vue";
-// imprt {adminCreate}
 export default {
   components: {
-    NewBlogAdd,
     BlogCard,
     Pagination
   },
@@ -117,51 +103,17 @@ export default {
       dialogVisible: false,
       tableLoading: false,
       dialogType: false,
-      itemDataSee: false,
       itemData: {},
+      itemDataSee: false,
       params: {
         page: 1,
         limit: 10,
       },
     };
   },
-  computed: {
-    userRole() {
-      return JSON.parse(getUserName()).role;
-    },
-    routesData() {
-      return this.routes;
-    },
-  },
-  watch: {
-    dialogVisible (oldvalue, newvalue) {
-      console.log(oldvalue, newvalue)
-      if(newvalue) {
-        this.$router.push({name: this.$route.name})
-      } else {
-        if(oldvalue&&this.$route.query.item) {
-          this.adminSilginBlog(this.$route.query.item)
-            .then((res) => {
-              const item = res.post;
-              const  itemdata = {
-                title: item['title'],
-                description: item['body'],
-                avatar: process.env.VUE_APP_BASE_API+item['image']
-              }
-              this.$store.dispatch('user/itemDataChanges', itemdata)
-            })
-        }
-      }
-    }
-  },
+
   created() {
     this.getAdminAllBlogList();
-    // console.log(JSON.parse(getUserName()).role)
-  },
-  mounted() {
-    if(this.$route.query.item) {
-      this.dialogVisible = true;
-    }
   },
   methods: {
     getList (event) {
@@ -171,38 +123,23 @@ export default {
     clickItemRow(item) {
       this.itemData = item
       this.itemDataSee = !this.itemDataSee
-      // console.log(item);
     },
-    adminSilginBlog,
     adminBlogDelete,
     editBlog (id) {
-      this.dialogVisible = !this.dialogVisible
-      this.$router.push({name: this.$route.name, query: {item: id.id}})
-      // console.log(this.$refs.updateItetmdata)
+      this.$router.push({name: 'blogUpdate', params: {id: id.id}})
     },
     deleteBlog(id) {
       this.tableLoading = !this.tableLoading
       this.adminBlogDelete(id)
-        .then(res => {
-          console.log(res)
+        .then(() => {
           this.getAdminAllBlogList()
         }).finally(() => {
         this.tableLoading = !this.tableLoading
       })
     },
-
     dayjs,
     getAdminBlogAll,
-    handleAddRole()
-    {
-
-      this.dialogVisible = !this.dialogVisible
-      this.$store.dispatch('user/itemDataChanges',{titel:'', descriptions: '', avatar: ''})
-
-    },
-    ClearIcon (event) {
-      console.log(event)
-    },
+    handleAddRole() {this.$router.push({name: 'blogCreate'})},
     getAdminAllBlogList() {
       (this.tableLoading = true),
         this.getAdminBlogAll(this.params)

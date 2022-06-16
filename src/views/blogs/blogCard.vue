@@ -119,7 +119,7 @@ export default {
 .card__image__box {
   position: relative;
   height: 252px;
-  overflow: hidden;
+    
   //   background: green;
   border-radius: 20px;
   transform: translateY(-50px);

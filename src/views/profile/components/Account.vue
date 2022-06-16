@@ -130,7 +130,8 @@ export default {
                 type: 'success',
               })
               this.getUserInfo()
-              this.resetForm()
+              this.resetForm();
+              window.location.reload()
             })
             .catch(() => {
               this.$message({

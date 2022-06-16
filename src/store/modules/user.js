@@ -74,7 +74,7 @@ const actions = {
         avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         introduction: 'I am a super administrator',
         name: 'Super Admin',
-        roles: [JSON.parse(getUserName()).role]
+        roles: [JSON.parse(getUserName()).role||'superadmin']
       }
 
       if (!data) {

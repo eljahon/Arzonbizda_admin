@@ -45,7 +45,7 @@ export const constantRoutes = [
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
         meta: { title: 'Панель приборов', icon: 'panel', affix: true }
-      }
+      },
     ]
   },
   {
@@ -83,6 +83,20 @@ export const constantRoutes = [
         component: () => import('@/views/blogs/index'),
         name: 'Blog',
         meta: { title: 'Блоги', icon: 'blog', noCache: true }
+      },
+      {
+        path: 'blogCreate',
+        hidden: true,
+        component: () => import('@/views/blogs/newBlogAdd'),
+        name: 'blogCreate',
+        meta: { title: 'Блоги', icon: 'blog', noCache: true }
+      },
+      {
+        path: 'blogUpdate/:id',
+        hidden: true,
+        component: () => import('@/views/blogs/newBlogAdd'),
+        name: 'blogUpdate',
+        meta: { title: 'Блоги', icon: 'blog', noCache: true }
       }
     ]
   }
@@ -119,8 +133,6 @@ const createRouter = () => new Router({
 })
 
 const router = createRouter()
-
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router

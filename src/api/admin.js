@@ -43,6 +43,7 @@ export function blogUpdate(data, id) {
 }
 
 export function adminDataUpadate(data, id) {
+  console.log(data)
   const sendData  = new FormData();
   sendData.append('image', data.avatar)
   sendData.append('title', data.title)

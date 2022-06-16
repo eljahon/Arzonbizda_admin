@@ -1,99 +1,108 @@
 <template>
-  <div class="blog__box">
-    <el-form
-      ref="ruleForm"
-      :rules="roles"
-      :model="blogForm"
-      autocomplete="on"
+  <div class="app-container">
+    <div
+      class="blog__box"
+      style="background-color: white; padding: 20px"
     >
-      <div class="upload__wrapper">
-        <div>
-          <el-form-item
-            label="Заголовок"
-            prop="title"
-          >
-            <el-input
-              v-model="blogForm.title"
-              class="input__style"
-              placeholder="Please input"
-            />
-          </el-form-item>
-        </div>
-        <div>
-          <el-form-item
-            label="Описание"
-            prop="description"
-          >
-            <el-input
-              v-model="blogForm.description"
-              class="input__style textarea__style"
-              type="textarea"
-              :rows="1"
-              placeholder="Please input"
-            />
-          </el-form-item>
-        </div>
-        <el-form-item
-          label="Изображение"
-          prop="avatar"
-        >
+      <el-form
+        ref="ruleForm"
+        style="width: 60%"
+        :rules="roles"
+        :model="blogForm"
+        autocomplete="on"
+      >
+        <div class="upload__wrapper">
+          <div>
+            <el-form-item
+              label="Заголовок"
+              prop="title"
+            >
+              <el-input
+                v-model="blogForm.title"
+                class="input__style"
+                placeholder="Please input"
+              />
+            </el-form-item>
+          </div>
+          <div>
+            <el-form-item
+              label="Описание"
+              prop="description"
+            >
+              <el-input
+                v-model="blogForm.description"
+                class="input__style textarea__style"
+                type="textarea"
+                :rows="3"
+                placeholder="Please input"
+              />
+            </el-form-item>
+          </div>
+
+          <!--        <el-form-item-->
+          <!--          label="Изображение"-->
+          <!--          prop="avatar"-->
+          <!--        >-->
           <div class="img_avatar_wrapper">
             <img
-              v-if="$route.query.item"
+              v-if="avatar"
               width="180px"
-              :src="blogForm.avatar"
+              :src="url+blogForm.avatar"
               alt="avatar"
             >
             <el-upload
+              ref="imageUpload"
               style="display: flex; justify-content: center"
               action="https://jsonplaceholder.typicode.com/posts/"
               list-type="picture-card"
-              :on-change="handlePictureCardPreview"
+              :on-remove="handleRemove"
+              :before-upload="handlePictureCardPreview"
             >
               <i class="el-icon-upload" />
             </el-upload>
           </div>
-        </el-form-item>
-        <div class="button_box">
-          <el-button
-            type="danger"
-            class="danger__btn"
-            icon="el-icon-close"
-            @click="resetForm"
-          >
-            Cansel
-          </el-button>
-          <el-button
-            v-loading.fullscreen.lock="fullscreenLoading"
-            type="success"
-            icon="el-icon-upload"
-            class="success__btn"
-            @click="submitForm"
-          >
-            Confirm
-          </el-button>
+          <!--        </el-form-item>-->
+          <div class="button_box">
+            <el-button
+              type="danger"
+              class="danger__btn"
+              icon="el-icon-close"
+              @click="resetForm"
+            >
+              Cansel
+            </el-button>
+            <el-button
+              v-loading.fullscreen.lock="fullscreenLoading"
+              type="success"
+              icon="el-icon-upload"
+              class="success__btn"
+              @click="submitForm"
+            >
+              Confirm
+            </el-button>
+          </div>
         </div>
-      </div>
-    </el-form>
+      </el-form>
+    </div>
   </div>
 </template>
 
 <script>
-import { blogCreate, adminDataUpadate } from "@/api/admin";
+import { blogCreate, adminDataUpadate,adminSilginBlog } from "@/api/admin";
 import { Default } from "@/validators/validators";
-import {mapGetters} from "vuex";
 
 export default {
-  name: "NewBlogAdd",
   data() {
     const defaults = Default;
     return {
+      url: process.env.VUE_APP_BASE_API,
       blogForm: {
         title: "",
         description: "",
         avatar: "",
       },
       fullscreenLoading: false,
+      avatar: false,
       roles: {
         title: [{ required: true, trigger: "change", validator: defaults }],
         description: [
@@ -103,80 +112,91 @@ export default {
       },
     };
   },
+  mounted() {
+    if(this.$route.params.id) {
+this.adminSilginBlog(this.$route.params.id)
+  .then(res => {
+    const data = {
+      title: res.post['title'],
+      description: res.post['body'],
+      avatar: res.post['image']
+    }
+    this.avatar = true;
+    this.blogForm = {...data};
+  })
+    }
+  },
   methods: {
     blogCreate,
     adminDataUpadate,
+    adminSilginBlog,
     handlePictureCardPreview(event) {
-      console.log(event.raw)
-      this.blogForm.avatar = event.raw
+      this.avatar = false;
+      this.blogForm.avatar = event;
+      this.$refs.imageUpload.$el.children[1].style.display = 'none'
     },
     submitForm: function() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           this.fullscreenLoading = true
-        if (this.$route.query.item) {
-          this.adminDataUpadate(this.blogForm, this.$route.query.item)
+        if (this.$route.params.id) {
+          this.adminDataUpadate(this.blogForm, this.$route.params.id)
             .then(() => {
-              this.$notify({
-                title: 'Успех',
+              this.$message({
                 message: "Добавить нового администратора",
                 type: 'success',
-                // type: 'error',
-                duration: 2000
               })
-              this.$emit('handleAddRole')
-              this.$emit('getBlogAllList')
+              this.$router.push({name: 'Blog'})
             }).finally(() => {
             this.fullscreenLoading = false;
             this.dialogVisible = false;
             this.$emit('modalClose', false)
           })
         } else  {
-          this.blogCreate(this.blogForm)
-            .then(() => {
-              this.$message({
-                message: "Добавить нового администратора",
-                type: 'success'
+          if(this.blogForm.avatar) {
+            this.blogCreate(this.blogForm)
+              .then(() => {
+                this.$message({
+                  message: "Добавить нового администратора",
+                  type: 'success'
+                })
+                this.$router.push({name: 'Blog'})
               })
-              this.$emit('handleAddRole')
-              this.$emit('getBlogAllList')
-            })
-            .catch(err => {
-              console.log(err)
-              this.$message({
-                message: "Ошибка добавления нового администратора",
-                // type: 'success',
-                type: 'error'
+              .catch(() => {
+                this.$message({
+                  message: "Ошибка добавления нового администратора",
+                  // type: 'success',
+                  type: 'error'
+                })
               })
+              .finally(() => {
+                this.fullscreenLoading = false;
+              })
+          } else  {
+            this.$message({
+              message: 'Пожалуйста, выберите изображение',
+              type: 'info'
             })
-            .finally(() => {
-              this.fullscreenLoading = false;
-              this.dialogVisible = false;
-              this.$emit('modalClose', false)
-            })
+            this.fullscreenLoading = false
+          }
         }
         }
     });
 },
     resetForm () {
       this.$refs.ruleForm.resetFields()
-    }
-  },
-  computed: {
-    ...mapGetters(['itemBlog']),
-    updateItemData: function () {
-      return this.itemBlog
-    }
-  },
-  watch: {
-    updateItemData: function (val) {
-      this.blogForm = val
+    },
+    handleRemove() {
+      this.$refs.imageUpload.$el.children[1].style.display = ''
     },
   }
 }
 </script>
 
 <style scoped lang="scss">
+.diseplyNone {
+  display: none;
+}
 .img_avatar_wrapper{
   max-width: 100%;
   display: flex;
@@ -197,6 +217,7 @@ export default {
   margin: 20px 0px 20px 0px;
 }
 .blog__box_title {
+  background-color: white;
   color: #1f2c37;
   font-family: "SF Pro";
   font-weight: 400;
@@ -213,7 +234,7 @@ export default {
   }
   .blog__box__inner {
     margin-top: 20px;
-    background: #fff;
+   background-color: white;
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
     padding: 20px;
     width: 100%;
