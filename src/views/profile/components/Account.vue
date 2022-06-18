@@ -3,7 +3,10 @@
   <el-row>
     <div style="margin-left: 20px">
       <el-col><Upload /></el-col>
-      <el-col :lg="14">
+      <el-col
+        :lg="14"
+        style="margin-top: 20px"
+      >
         <el-row>
           <el-col :lg="16">
             <el-row>

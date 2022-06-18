@@ -44,21 +44,23 @@
           <!--          prop="avatar"-->
           <!--        >-->
           <div class="img_avatar_wrapper">
-            <img
-              v-if="avatar"
-              width="180px"
-              :src="url+blogForm.avatar"
-              alt="avatar"
-            >
             <el-upload
-              ref="imageUpload"
-              style="display: flex; justify-content: center"
+              ref="imageSlects"
               action="https://jsonplaceholder.typicode.com/posts/"
               list-type="picture-card"
-              :on-remove="handleRemove"
-              :before-upload="handlePictureCardPreview"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="handelChanges"
             >
-              <i class="el-icon-upload" />
+              <img
+                v-if="imageUrl"
+                :src="imageUrl"
+                class="avatar"
+              >
+              <i
+                v-else
+                class="el-icon-plus avatar-uploader-icon"
+              />
             </el-upload>
           </div>
           <!--        </el-form-item>-->
@@ -102,7 +104,7 @@ export default {
         avatar: "",
       },
       fullscreenLoading: false,
-      avatar: false,
+      imageUrl: '',
       roles: {
         title: [{ required: true, trigger: "change", validator: defaults }],
         description: [
@@ -121,7 +123,7 @@ this.adminSilginBlog(this.$route.params.id)
       description: res.post['body'],
       avatar: res.post['image']
     }
-    this.avatar = true;
+    this.imageUrl =process.env.VUE_APP_BASE_API+res.post['image']
     this.blogForm = {...data};
   })
     }
@@ -130,10 +132,18 @@ this.adminSilginBlog(this.$route.params.id)
     blogCreate,
     adminDataUpadate,
     adminSilginBlog,
-    handlePictureCardPreview(event) {
-      this.avatar = false;
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    handelChanges(event) {
       this.blogForm.avatar = event;
-      this.$refs.imageUpload.$el.children[1].style.display = 'none'
+      if (event) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageUrl = e.target.result;
+        };
+        reader.readAsDataURL(event);
+      }
     },
     submitForm: function() {
       this.$refs.ruleForm.validate(valid => {
@@ -185,9 +195,6 @@ this.adminSilginBlog(this.$route.params.id)
 },
     resetForm () {
       this.$refs.ruleForm.resetFields()
-    },
-    handleRemove() {
-      this.$refs.imageUpload.$el.children[1].style.display = ''
     },
   }
 }
@@ -264,5 +271,29 @@ this.adminSilginBlog(this.$route.params.id)
   .blog__box_title {
     font-size: 20px;
   }
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  position: relative;
+  top: -20px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 158px;
+  display: block;
+  margin-bottom: 15px;
 }
 </style>

@@ -5,19 +5,20 @@
       ref="imageSlects"
       action="https://jsonplaceholder.typicode.com/posts/"
       list-type="picture-card"
-      :on-preview="handlePictureCardPreview"
-      :on-remove="handleRemove"
+      :show-file-list="false"
+      :on-success="handleAvatarSuccess"
       :before-upload="handelChanges"
     >
-      <i class="el-icon-plus" />
-    </el-upload>
-    <el-dialog :visible.sync="dialogVisible">
       <img
-        width="100%"
-        :src="dialogImageUrl"
-        alt=""
+        v-if="imageUrl"
+        :src="imageUrl"
+        class="avatar"
       >
-    </el-dialog>
+      <i
+        v-else
+        class="el-icon-plus avatar-uploader-icon"
+      />
+    </el-upload>
   </div>
 </template>
 <script>
@@ -28,20 +29,26 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       disabled: true,
+      imageUrl: ''
     };
   },
   methods: {
     avatarUpload,
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
     handleRemove() {
 
       this.$refs.imageSlects.$el.children[1].classList.remove('diseplyNone')
     },
-    handlePictureCardPreview(file) {
-
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
     handelChanges(event) {
+      if (event) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageUrl = e.target.result;
+        };
+        reader.readAsDataURL(event);
+      }
        this.avatarUpload (event)
         .then((res) => {
           if(res.ok) {
@@ -49,7 +56,6 @@ export default {
             message: 'пользователь новый img добавить',
             type: 'success'
           });
-           this.$refs.imageSlects.$el.children[1].classList.add('diseplyNone');
           }
         })
     //  }
@@ -61,5 +67,29 @@ export default {
 <style>
 .diseplyNone {
   display: none;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  position: relative;
+  top: -20px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 158px;
+  display: block;
+  margin-bottom: 15px;
 }
 </style>

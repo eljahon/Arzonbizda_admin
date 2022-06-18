@@ -131,8 +131,9 @@ export default {
     deleteBlog(id) {
       this.tableLoading = !this.tableLoading
       this.adminBlogDelete(id)
-        .then(() => {
-          this.getAdminAllBlogList()
+        .then((res) => {
+          if (res) this.getAdminAllBlogList()
+
         }).finally(() => {
         this.tableLoading = !this.tableLoading
       })
