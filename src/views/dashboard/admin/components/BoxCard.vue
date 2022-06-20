@@ -2,37 +2,72 @@
   <el-card class="box-card-component">
     <h3>Популярные локации</h3>
     <el-tabs v-model="activeTab">
-      <el-tab-pane class="panel_Provinces" label="Провинции" name="Провинции">
-        <div style="padding-top: 35px" class="progress-item">
+      <el-tab-pane
+        class="panel_Provinces"
+        label="Провинции"
+        name="Провинции"
+      >
+        <div
+          style="padding-top: 35px"
+          class="progress-item"
+        >
           <span>Узбекистан</span>
-          <el-progress :stroke-width="10" :percentage="70" />
+          <el-progress
+            :stroke-width="10"
+            :percentage="70"
+          />
         </div>
         <div class="progress-item">
           <span>Кыргызстан</span>
-          <el-progress :stroke-width="10" :percentage="18" />
+          <el-progress
+            :stroke-width="10"
+            :percentage="18"
+          />
         </div>
       </el-tab-pane>
-      <el-tab-pane class="panel_Provinces" label="Страны" name="Страны">
+      <el-tab-pane
+        class="panel_Provinces"
+        label="Страны"
+        name="Страны"
+      >
         <div style="position: relative">
-          <div style="padding-top: 35px" class="progress-item">
+          <div
+            style="padding-top: 35px"
+            class="progress-item"
+          >
             <span>Узбекистан</span>
-            <el-progress :stroke-width="10" :percentage="70" />
+            <el-progress
+              :stroke-width="10"
+              :percentage="70"
+            />
           </div>
           <div class="progress-item">
             <span>Кыргызстан</span>
-            <el-progress :stroke-width="10" :percentage="18" />
+            <el-progress
+              :stroke-width="10"
+              :percentage="18"
+            />
           </div>
           <div class="progress-item">
             <span>Таджикистан</span>
-            <el-progress :stroke-width="10" :percentage="12" />
+            <el-progress
+              :stroke-width="10"
+              :percentage="12"
+            />
           </div>
           <div class="progress-item">
             <span>Туркменистан</span>
-            <el-progress :stroke-width="10" :percentage="100" />
+            <el-progress
+              :stroke-width="10"
+              :percentage="100"
+            />
           </div>
           <div class="progress-item">
             <span>Казахстан</span>
-            <el-progress :stroke-width="10" :percentage="100" />
+            <el-progress
+              :stroke-width="10"
+              :percentage="100"
+            />
           </div>
         </div>
       </el-tab-pane>

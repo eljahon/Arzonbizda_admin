@@ -1,7 +1,13 @@
 <template>
   <div :class="{'has-logo':showLogo}">
-    <logo v-if="showLogo" :collapse="isCollapse" />
-    <el-scrollbar wrap-class="scrollbar-wrapper" class="scroll-class">
+    <logo
+      v-if="showLogo"
+      :collapse="isCollapse"
+    />
+    <el-scrollbar
+      wrap-class="scrollbar-wrapper"
+      class="scroll-class"
+    >
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
@@ -13,7 +19,12 @@
         mode="vertical"
         class="sab-menu-item"
       >
-        <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
+        <sidebar-item
+          v-for="route in permission_routes"
+          :key="route.path"
+          :item="route"
+          :base-path="route.path"
+        />
       </el-menu>
     </el-scrollbar>
   </div>

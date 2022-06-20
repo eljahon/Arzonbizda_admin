@@ -1,30 +1,54 @@
 <template>
   <div class="panel-group">
-    <el-col :xs="12" :sm="12" :lg="24" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
+    <el-col
+      :xs="12"
+      :sm="12"
+      :lg="24"
+      class="card-panel-col"
+    >
+      <div
+        class="card-panel"
+        @click="handleSetLineChartData('newVisitis')"
+      >
         <div class="card-panel-description">
-          <div class="card-panel-text">Продукты</div>
+          <div class="card-panel-text">
+            Продукты
+          </div>
           <count-to
             :start-val="0"
             :end-val="102400"
             :duration="2600"
             class="card-panel-num"
           />
-          <p class="panelGroup__description">По сравнению с прошлым месяцем</p>
+          <p class="panelGroup__description">
+            По сравнению с прошлым месяцем
+          </p>
         </div>
       </div>
     </el-col>
-    <el-col :xs="12" :sm="12" :lg="24" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('messages')">
+    <el-col
+      :xs="12"
+      :sm="12"
+      :lg="24"
+      class="card-panel-col"
+    >
+      <div
+        class="card-panel"
+        @click="handleSetLineChartData('messages')"
+      >
         <div class="card-panel-description">
-          <div class="card-panel-text">Количество  посещений</div>
+          <div class="card-panel-text">
+            Количество  посещений
+          </div>
           <count-to
             :start-val="0"
             :end-val="81212"
             :duration="3000"
             class="card-panel-num"
           />
-          <p class="panelGroup__description">По сравнению с прошлым месяцем</p>
+          <p class="panelGroup__description">
+            По сравнению с прошлым месяцем
+          </p>
         </div>
       </div>
     </el-col>
