@@ -1,9 +1,24 @@
 <template>
-  <div class="sidebar-logo-container" :class="{'collapse':collapse}">
+  <div
+    class="sidebar-logo-container"
+    :class="{'collapse':collapse}"
+  >
     <transition name="sidebarLogoFade">
-      <router-link key="expand" class="sidebar-logo-link" to="/">
-        <img :src="logo" class="sidebar-logo">
-        <h1 class="sidebar-title"><span class="sidebar-title-text"><img :src="titleImg" alt=""></span></h1>
+      <router-link
+        key="expand"
+        class="sidebar-logo-link"
+        to="/"
+      >
+        <img
+          :src="logo"
+          class="sidebar-logo"
+        >
+        <h1 class="sidebar-title">
+          <span class="sidebar-title-text"><img
+            :src="titleImg"
+            alt=""
+          ></span>
+        </h1>
       </router-link>
     </transition>
   </div>

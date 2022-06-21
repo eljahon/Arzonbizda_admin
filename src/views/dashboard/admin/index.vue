@@ -46,7 +46,12 @@ export default {
 <template>
   <div class="dashboard-editor-container">
     <el-row class="all-components-flex">
-      <el-col class="panel__box" :xs="24" :sm="24" :lg="5">
+      <el-col
+        class="panel__box"
+        :xs="24"
+        :sm="24"
+        :lg="5"
+      >
         <panel-group @handleSetLineChartData="handleSetLineChartData" />
       </el-col>
       <el-col class="chart__Box">
