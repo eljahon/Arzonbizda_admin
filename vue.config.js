@@ -17,6 +17,7 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     port: port,
+    proxy: 'https://admin.arzonbizda.uz',
     open: true,
   },
   configureWebpack: {
