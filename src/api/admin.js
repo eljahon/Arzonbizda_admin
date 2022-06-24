@@ -94,11 +94,11 @@ export function adminPasswordUpadate(data, id) {
     data
   })
 }
-//
-// export function deleteRole(id) {
-//   return request({
-//     url: `/vue-element-admin/role/${id}`,
-//     method: 'delete'
-//   })
-// }
+
+export function adminSingil(id) {
+  return request({
+    url: `${baseUrl.admin}/${id}`,
+    method: 'get'
+  })
+}
 

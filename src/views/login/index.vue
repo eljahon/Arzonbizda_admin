@@ -203,7 +203,7 @@ export default {
               ref="email"
               v-model="loginForm.email"
               placeholder="Эл. адрес"
-              name="email"
+              name="Эл. адрес"
               type="text"
               tabindex="1"
               autocomplete="on"
@@ -218,7 +218,7 @@ export default {
               ref="password"
               v-model="loginForm.password"
               :type="passwordType"
-              placeholder="Пароль"
+              placeholder="пароль"
               name="password"
               tabindex="2"
               autocomplete="on"
@@ -226,7 +226,7 @@ export default {
               @keyup.enter.native="handleLogin"
             />
           </el-form-item>
-          <a href="#">Забыли свой пароль?</a>
+          <br>
           <div class="button-warapper">
             <el-button
               :loading="loading"
