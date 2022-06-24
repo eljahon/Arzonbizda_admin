@@ -43,9 +43,5 @@ export default {
   computed: {
     ...mapGetters(["name", "avatar", "roles"]),
   },
-  created() {
-    // this.getUser()
-  },
-  methods: {},
 };
 </script>

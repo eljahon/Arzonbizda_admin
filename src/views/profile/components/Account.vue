@@ -2,7 +2,7 @@
 <template>
   <el-row>
     <div style="margin-left: 20px">
-      <el-col><Upload /></el-col>
+      <el-col><Upload ref="avatar" /></el-col>
       <el-col
         :lg="14"
         style="margin-top: 20px"
@@ -105,6 +105,7 @@ export default {
         last_name: '',
         email: ''
       },
+      avatar: '',
       userAdminId: '',
       fullscreenLoading: false,
       roles: {
@@ -154,12 +155,18 @@ export default {
     },
     resetForm() {
       this.$refs.profilForm.resetFields();
+      this.$refs.avatar._data.imageUrl = ''
     },
     userPersolnData,
     getUserInfo () {
       this.userPersolnData()
         .then(res => {
-          // this.ruleForm = res.admin;
+          this.ruleForm = {
+            first_name: res.admin.first_name,
+            last_name: res.admin.last_name,
+            email: res.admin.email
+          };
+          this.$refs.avatar._data.imageUrl = process.env.VUE_APP_BASE_API+res.admin.avatar
           setUserName(res.admin)
           this.$store.dispatch("user/setUserNewData", res.admin)
           // this.$router.push({name: this.$route.name, query:{ userId: res.admin.id }})
