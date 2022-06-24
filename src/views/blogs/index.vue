@@ -38,6 +38,17 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="Заголовок"
+        prop="title"
+      />
+      <el-table-column
+        label="Описание"
+      >
+        <template slot-scope="scope">
+          {{ stringFormat(scope.row.description) }}
+        </template>
+      </el-table-column>
+      <el-table-column
         label="Статус"
         align="center"
       >
@@ -116,6 +127,15 @@ export default {
     this.getAdminAllBlogList();
   },
   methods: {
+    stringFormat (item) {
+      if (item.length > 30) {
+        const sclie =item.slice(0, 30);
+        return `${sclie}.....`
+      } else {
+        return item;
+      }
+
+    },
     getList (event) {
       this.params = {...event};
       this.getAdminAllBlogList();
@@ -145,6 +165,7 @@ export default {
       (this.tableLoading = true),
         this.getAdminBlogAll(this.params)
           .then((res) => {
+            console.log(res)
             this.blogList = res.posts.map((el) => {
               return {
                 email: el["admin.email"],

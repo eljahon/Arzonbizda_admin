@@ -194,7 +194,7 @@ export default {
             <a class="social"><i class="fab fa-google-plus-g" /></a>
             <a class="social"><i class="fab fa-linkedin-in" /></a>
           </div>
-          <span style="margin-bottom: 15px">or use your account</span>
+          <span style="margin-bottom: 15px">или используйте свой аккаунт</span>
           <el-form-item
             prop="email"
             style="width: 100%"
@@ -202,8 +202,8 @@ export default {
             <el-input
               ref="email"
               v-model="loginForm.email"
-              placeholder="email"
-              name="email"
+              placeholder="Эл. адрес"
+              name="Эл. адрес"
               type="text"
               tabindex="1"
               autocomplete="on"
@@ -218,7 +218,7 @@ export default {
               ref="password"
               v-model="loginForm.password"
               :type="passwordType"
-              placeholder="Password"
+              placeholder="пароль"
               name="password"
               tabindex="2"
               autocomplete="on"
@@ -226,7 +226,7 @@ export default {
               @keyup.enter.native="handleLogin"
             />
           </el-form-item>
-          <a href="#">Forgot your password?</a>
+          <br>
           <div class="button-warapper">
             <el-button
               :loading="loading"
@@ -234,13 +234,13 @@ export default {
               @keyup.enter.native="handleLogin"
               @click="handleLogin"
             >
-              Login
+              Логин
             </el-button>
             <el-button
               class="sigin-up"
               @click="refReshInpurtValue"
             >
-              Sign In
+              Чисто
             </el-button>
           </div>
         </el-form>

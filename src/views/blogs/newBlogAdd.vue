@@ -66,21 +66,21 @@
           <!--        </el-form-item>-->
           <div class="button_box">
             <el-button
+              v-loading.fullscreen.lock="fullscreenLoading"
+              type="primary"
+              icon="el-icon-upload"
+              class="success__btn"
+              @click="submitForm"
+            >
+              Сохранить изменения
+            </el-button>
+            <el-button
               type="danger"
               class="danger__btn"
               icon="el-icon-close"
               @click="resetForm"
             >
-              Cansel
-            </el-button>
-            <el-button
-              v-loading.fullscreen.lock="fullscreenLoading"
-              type="success"
-              icon="el-icon-upload"
-              class="success__btn"
-              @click="submitForm"
-            >
-              Confirm
+              Отмена
             </el-button>
           </div>
         </div>
@@ -194,7 +194,8 @@ this.adminSilginBlog(this.$route.params.id)
     });
 },
     resetForm () {
-      this.$refs.ruleForm.resetFields()
+      this.$refs.ruleForm.resetFields();
+      this.imageUrl = ''
     },
   }
 }
